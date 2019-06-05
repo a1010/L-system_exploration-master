@@ -1,0 +1,770 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-makeHeightCSV<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "New.makeHeightCSV",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PdfContentReaderTool<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.itextpdf.text.pdf.parser.PdfContentReaderTool",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GlueGenVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.common.GlueGenVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GlueGenVersion<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.common.GlueGenVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-NativeWindowVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.nativewindow.NativeWindowVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-NativeWindowVersion<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.nativewindow.NativeWindowVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-NewtVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.newt.NewtVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-NewtVersion<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.newt.NewtVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GLWindow<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.newt.opengl.GLWindow",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GLWindow<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.newt.opengl.GLWindow",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MainThread<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.newt.util.MainThread",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MainThread<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.newt.util.MainThread",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-JoglVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.JoglVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-JoglVersion<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.JoglVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GLCanvas<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.awt.GLCanvas",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GLCanvas<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.awt.GLCanvas",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GLCanvas<L-system_exploration-master>(2)",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.swt.GLCanvas",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GLCanvas<L-system_exploration-master>(3)",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.swt.GLCanvas",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-CompileShaderNVidia<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.util.glsl.sdk.CompileShaderNVidia",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-CompileShaderNVidia<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "com.jogamp.opengl.util.glsl.sdk.CompileShaderNVidia",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DocsConnectionPropsHelper<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.mysql.jdbc.DocsConnectionPropsHelper",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ErrorMappingsDocGenerator<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.mysql.jdbc.util.ErrorMappingsDocGenerator",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PropertiesDocGenerator<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.mysql.jdbc.util.PropertiesDocGenerator",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-TimezoneDump<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.mysql.jdbc.util.TimezoneDump",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VersionFSHierarchyMaker<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "com.mysql.jdbc.util.VersionFSHierarchyMaker",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-CalcFractalDimension<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "fractal.CalcFractalDimension",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Main<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "gephi.Main",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ResourceFile<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.graph.font.typecast.ot.mac.ResourceFile",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ResourceFile<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.graph.font.typecast.ot.mac.ResourceFile",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-LinuxEventDeviceTracker<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.newt.driver.linux.LinuxEventDeviceTracker",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-LinuxEventDeviceTracker<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.newt.driver.linux.LinuxEventDeviceTracker",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-X11UnderlayTracker<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.newt.driver.x11.X11UnderlayTracker",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-X11UnderlayTracker<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.newt.driver.x11.X11UnderlayTracker",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VersionApplet<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.awt.VersionApplet",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VersionApplet<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.awt.VersionApplet",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Type_Widget<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.glu.mipmap.Type_Widget",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Type_Widget<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.glu.mipmap.Type_Widget",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ALDummyUsage<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.openal.av.ALDummyUsage",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ALDummyUsage<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.openal.av.ALDummyUsage",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PngDeinterlacer<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.util.pngj.PngDeinterlacer",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PngDeinterlacer<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "jogamp.opengl.util.pngj.PngDeinterlacer",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-makeCSV<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "makeCSV.makeCSV",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-makeCSVmk2<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "makeCSV.makeCSVmk2",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-makeCSVmk3<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "makeCSV.makeCSVmk3",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ConvertMazeToMountain<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "maze_with_Lsystem.ConvertMazeToMountain",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Main_Maze<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "maze_with_Lsystem.Main_Maze",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Maze<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "maze_with_Lsystem.Maze",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Simulator2D<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "maze_with_Lsystem.Simulator2D",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-JAffineTransformChooser<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.batik.ext.swing.JAffineTransformChooser",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PrintTranscoder<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.batik.transcoder.print.PrintTranscoder",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-WMFTranscoder<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.batik.transcoder.wmf.tosvg.WMFTranscoder",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ClassFileUtilities<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.batik.util.ClassFileUtilities",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Class2HTML<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.util.Class2HTML",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-JavaWrapper<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.util.JavaWrapper",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GraphicalVerifier<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.verifier.GraphicalVerifier",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-NativeVerifier<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.verifier.NativeVerifier",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-TransitiveHull<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.verifier.TransitiveHull",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Verifier<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.verifier.Verifier",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VerifyDialog<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.verifier.VerifyDialog",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-AssertionViolatedException<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.bcel.verifier.exc.AssertionViolatedException",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Lister<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.commons.compress.archivers.Lister",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-REDemo<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.regexp.REDemo",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RETest<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.regexp.RETest",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-recompile<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.regexp.recompile",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Version<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.Version",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ObjectArray<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.lib.sql.ObjectArray",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-XSLProcessorVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.processor.XSLProcessorVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-EnvironmentCheck<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.xslt.EnvironmentCheck",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Process<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.xslt.Process",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ProcessorVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.xsltc.ProcessorVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Compile<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.xsltc.cmdline.Compile",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Transform<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xalan.xsltc.cmdline.Transform",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DTMSafeStringPool<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xml.dtm.ref.DTMSafeStringPool",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DTMStringPool<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xml.dtm.ref.DTMStringPool",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-IncrementalSAXSource_Xerces<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.apache.xml.dtm.ref.IncrementalSAXSource_Xerces",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Compiler<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.ibex.nestedvm.Compiler",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Interpreter<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.ibex.nestedvm.Interpreter",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RuntimeCompiler<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.ibex.nestedvm.RuntimeCompiler",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-JCommon<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.JCommon",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ClassPathDebugger<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.base.ClassPathDebugger",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-JFreeChart<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.chart.JFreeChart",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MonthDateFormat<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.chart.axis.MonthDateFormat",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-BarChartDemo1<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.chart.demo.BarChartDemo1",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PieChartDemo1<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.chart.demo.PieChartDemo1",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-TimeSeriesChartDemo1<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.chart.demo.TimeSeriesChartDemo1",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RelativeDateFormat<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.chart.util.RelativeDateFormat",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DateChooserPanelDemo<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.demo.DateChooserPanelDemo",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DrawStringDemo<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.demo.DrawStringDemo",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-TextBlockDemo<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.demo.TextBlockDemo",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RadialLayout<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.layout.RadialLayout",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DescriptionGenerator<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.xml.generator.DescriptionGenerator",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PrintBeanInfo<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.xml.generator.model.PrintBeanInfo",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Base64<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.jfree.xml.util.Base64",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ZoneInfoCompiler<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.joda.time.tz.ZoneInfoCompiler",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PSQLDriverVersion<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.postgresql.util.PSQLDriverVersion",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-OSInfo<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.sqlite.OSInfo",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-SQLite<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "org.sqlite.SQLite",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PApplet<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "processing.core.PApplet",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PApplet<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "processing.core.PApplet",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PApplet<L-system_exploration-master>(2)",
+            "request": "launch",
+            "mainClass": "processing.core.PApplet",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Main<L-system_exploration-master>(1)",
+            "request": "launch",
+            "mainClass": "slidepuzzle_with_Lsystem.Main",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MySketch2D<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "slidepuzzle_with_Lsystem.MySketch2D",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-SlidePuzzle<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "slidepuzzle_with_Lsystem.SlidePuzzle",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GEXFParser<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "tamori.GEXFParser",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GEXFWriter<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "tamori.GEXFWriter",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GraphDraw<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "tamori.GraphDraw",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Main<L-system_exploration-master>(2)",
+            "request": "launch",
+            "mainClass": "testGephiAPI.Main",
+            "projectName": "L-system_exploration-master"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PreviewJFrame<L-system_exploration-master>",
+            "request": "launch",
+            "mainClass": "testGephiAPI.PreviewJFrame",
+            "projectName": "L-system_exploration-master"
+        }
+    ]
+}
