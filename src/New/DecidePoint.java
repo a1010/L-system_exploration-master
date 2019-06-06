@@ -18,7 +18,7 @@ import javax.management.ConstructorParameters;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class DecidePoint extends JFrame implements MouseListener{
+public class DecidePoint extends JFrame implements MouseListener {
 	Image img;
 	Toolkit toolkit;
 	Display panel;
@@ -34,7 +34,10 @@ public class DecidePoint extends JFrame implements MouseListener{
 	private Point checkPosition;
 	private List<Point> mountPointList;
 
-	enum Select {start, goal, finish, check};
+	enum Select {
+		start, goal, finish, check
+	};
+
 	static Select s;
 
 	Point point;
@@ -43,13 +46,14 @@ public class DecidePoint extends JFrame implements MouseListener{
 	private BufferedImage read;
 	private int w;
 	private int h;
-	
-	private int p;
-	
-	private boolean isCheck;//中間地点を置くかどうか
 
-	public DecidePoint(String maze_file){
-		//System.out.println(maze_file);
+	private int p;
+
+	// 中間地点の有無
+	private boolean isCheck;
+
+	public DecidePoint(String maze_file) {
+		// System.out.println(maze_file);
 		f = new File(maze_file);
 		isCheck = false;
 		try {
@@ -58,7 +62,7 @@ public class DecidePoint extends JFrame implements MouseListener{
 			h = read.getHeight();
 
 			setTitle("スタートとゴールを決めよう");
-			setSize(w, h+40);
+			setSize(w, h + 40);
 			printImage(maze_file, new Point(0, 0));
 			System.out.println("スタートの位置をクリックしてください");
 			s = Select.start;
@@ -66,9 +70,8 @@ public class DecidePoint extends JFrame implements MouseListener{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public DecidePoint(String maze_file, int num){
+
+	public DecidePoint(String maze_file, int num) {
 		f = new File(maze_file);
 		isCheck = true;
 		try {
@@ -77,7 +80,7 @@ public class DecidePoint extends JFrame implements MouseListener{
 			h = read.getHeight();
 
 			setTitle("スタートとゴールと中間地点を決めよう");
-			setSize(w, h+40);
+			setSize(w, h + 40);
 			printImage(maze_file, new Point(0, 0));
 			System.out.println("スタートの位置をクリックしてください");
 			s = Select.start;
@@ -86,33 +89,33 @@ public class DecidePoint extends JFrame implements MouseListener{
 		}
 	}
 
-	class Display extends JPanel{
-		public void paint(Graphics g){
+	class Display extends JPanel {
+		public void paint(Graphics g) {
 			g.drawImage(img, 0, 0, this);
 		}
 	}
 
-	public boolean isSetPoint(){
-		if(s == Select.finish)
+	public boolean isSetPoint() {
+		if (s == Select.finish)
 			return true;
 		else
 			return false;
 	}
 
-	public Point getStartPoint(){
+	public Point getStartPoint() {
 		return startPosition;
 	}
-	
-	public Point getGoalPoint(){
+
+	public Point getGoalPoint() {
 		return goalPosition;
 	}
-	
-	public Point getCheckPoint(){
+
+	public Point getCheckPoint() {
 		return checkPosition;
 	}
-	
-	//画像を指定の座標に表示する
-	private void printImage(String name, Point point){
+
+	// 画像を指定の座標に表示する
+	private void printImage(String name, Point point) {
 		f = new File(name);
 		try {
 			read = ImageIO.read(f);
@@ -132,12 +135,13 @@ public class DecidePoint extends JFrame implements MouseListener{
 		}
 	}
 
+	// start,goal,checkpointの手動設定用
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		point = e.getPoint();
 
-		switch(s){
-		case start :{
+		switch (s) {
+		case start: {
 			startPosition = point;
 			s = Select.goal;
 			System.out.println("ゴール位置をクリックしてください");
@@ -145,9 +149,9 @@ public class DecidePoint extends JFrame implements MouseListener{
 			printImage(startIcon, startPosition);
 			break;
 		}
-		case goal :{
+		case goal: {
 			goalPosition = point;
-			if(!isCheck)
+			if (!isCheck)
 				s = Select.finish;
 			else
 				s = Select.check;
@@ -155,10 +159,10 @@ public class DecidePoint extends JFrame implements MouseListener{
 			printImage(goalIcon, goalPosition);
 			break;
 		}
-		case finish :{
+		case finish: {
 			break;
 		}
-		case check :{
+		case check: {
 			System.out.println("中間地点をクリックしてください");
 			checkPosition = point;
 			checkIcon = "./check.png";

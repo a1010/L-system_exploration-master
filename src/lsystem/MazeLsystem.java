@@ -7,8 +7,7 @@ import maze_with_Lsystem.Maze;
 import serachItem.Cell;
 import serachItem.MazeNode;
 
-
-public class MazeLsystem extends Lsystem{
+public class MazeLsystem extends Lsystem {
 
 	public int max_node_count;
 	public int sight;
@@ -47,14 +46,15 @@ public class MazeLsystem extends Lsystem{
 	private static double deleteTime;
 	private static boolean isChangeRate;
 
-	public MazeLsystem(int max_node_count,int sight){
+	public MazeLsystem(int max_node_count, int sight) {
 		this.sight = sight;
 		this.max_node_count = max_node_count;
 		this.pa_rate = -1;
 		this.pb_rate = -1;
 		this.pc_rate = -1;
 	}
-	public MazeLsystem(int max_node_count,int sight,int pa,int pb,int pc){
+
+	public MazeLsystem(int max_node_count, int sight, int pa, int pb, int pc) {
 		this.sight = sight;
 		this.max_node_count = max_node_count;
 		this.pa_rate = pa;
@@ -66,40 +66,40 @@ public class MazeLsystem extends Lsystem{
 	public void apply(Cell node) {
 		// TODO 自動生成されたメソッド・スタブ
 		MazeNode mNode = (MazeNode) node;
-		if(checkFinish(mNode)){
-			if(Maze.getCheckPointSetting()){
-				if(mNode.isCheck)
+		if (checkFinish(mNode)) {
+			if (Maze.getCheckPointSetting()) {
+				if (mNode.isCheck)
 					finish(mNode);
 			}
-			if(!Maze.getCheckPointSetting()){
+			if (!Maze.getCheckPointSetting()) {
 				finish(mNode);
 			}
 		}
 
-		//中間地点チェック
-		if(Maze.getCheckPointSetting() && checkCheckPoint(mNode)){
+		// 中間地点チェック
+		if (Maze.getCheckPointSetting() && checkCheckPoint(mNode)) {
 			changeRate(mNode);
 
 		}
 
-		//距離が離れると消える
-		//deleteOutRange(mNode);
+		// 距離が離れると消える
+		// deleteOutRange(mNode);
 
 		deleteNotThroughCheck(mNode);
 
-		//コンストラクタの引数で与えられてない場合（適当に数値入れてる）
-		if(pa_rate == -1 && pb_rate == -1 && pc_rate == -1){
+		// コンストラクタの引数で与えられてない場合（適当に数値入れてる）
+		if (pa_rate == -1 && pb_rate == -1 && pc_rate == -1) {
 			pa_rate = 9;
 			pb_rate = 1;
 			pc_rate = 1;
 		}
-		//シグモイド関数
-		double sig = sigmoid((double)Maze.getNodeCount()/(double)max_node_count , 4);
+		// シグモイド関数
+		double sig = sigmoid((double) Maze.getNodeCount() / (double) max_node_count, 4);
 		P = 1 - sig;
 		pd = sig;
-		pa = P*pa_rate/(pa_rate+pb_rate+pc_rate);
-		pb = P*pb_rate/(pa_rate+pb_rate+pc_rate);
-		pc = P*pc_rate/(pa_rate+pb_rate+pc_rate);
+		pa = P * pa_rate / (pa_rate + pb_rate + pc_rate);
+		pb = P * pb_rate / (pa_rate + pb_rate + pc_rate);
+		pc = P * pc_rate / (pa_rate + pb_rate + pc_rate);
 
 		String state = mNode.getState();
 		switch (state) {
@@ -138,69 +138,70 @@ public class MazeLsystem extends Lsystem{
 		}
 	}
 
-	//終了状態チェック
+	// 終了状態チェック
 	@Override
 	public boolean checkFinish(Cell node) {
 		// TODO 自動生成されたメソッド・スタブ
 		MazeNode mNode = (MazeNode) node;
-		if(Maze.checkGoalArrival(mNode)){
+		if (Maze.checkGoalArrival(mNode)) {
 			return true;
 		}
 		return false;
 	}
 
-	//ゴール地点から遠いもののノードの状態をEにする
-	public void deleteOutRange(MazeNode node){
+	// ゴール地点から遠いもののノードの状態をEにする
+	public void deleteOutRange(MazeNode node) {
 		double range = Maze.getGoalRange(node);
-		if(range >= Maze.getRangeStartTogoal() + 10){
+		if (range >= Maze.getRangeStartTogoal() + 10) {
 			node.endProcess("D");
 		}
 	}
 
-	//中間地点チェック
-	public boolean checkCheckPoint(Cell node){
+	// 中間地点チェック
+	public boolean checkCheckPoint(Cell node) {
 		MazeNode mNode = (MazeNode) node;
-		if(Maze.checkPointArrival(mNode)){
+		if (Maze.checkPointArrival(mNode)) {
 			mNode.isCheck = true;
 			return true;
 		}
 		return false;
 	}
 
-	//終了処理(全てのノードの状態を"E"にする)
+	// 終了処理(全てのノードの状態を"E"にする)
 	public void finish(MazeNode node) {
 		int step = Main_Maze.step_num;
-		/////////////////System.out.println("ID, step, nodeX, nodeY, length");
-		String info = "ID"+Main_Maze.ID+","+step+","+node.getPoint().x +","+node.getPoint().y +","+node.getLength();
-		///////////////////System.out.println(info);
+		///////////////// System.out.println("ID, step, nodeX, nodeY, length");
+		String info = "ID" + Main_Maze.ID + "," + step + "," + node.getPoint().x + "," + node.getPoint().y + ","
+				+ node.getLength();
+		/////////////////// System.out.println(info);
 		Main_Maze.solution_info.add(info);
 		node.endProcess("E");
 		Maze.deleteGoal(node.getPoint().x, node.getPoint().y);
-		////////System.out.println("aaaaaaa");
+		//////// System.out.println("aaaaaaa");
 	}
 
-	//中間地点通過後の処理(粒度を変更する)
-	public void changeRate(MazeNode node){
-		if(!isChangeRate){
+	// 中間地点通過後の処理(粒度を変更する)
+	public void changeRate(MazeNode node) {
+		if (!isChangeRate) {
 			setPa(0);
 			setPb(0);
 			setPc(1);
 		}
 	}
 
-	//粒度が変わったかチェック
-	public boolean checkChangeRate(){
+	// 粒度が変わったかチェック
+	public boolean checkChangeRate() {
 		return isChangeRate;
 	}
 
-	//中間地点をどこかが通過したら通過していないやつは消える
-	public void deleteNotThroughCheck(MazeNode mNode){
-		if(Maze.getCheckPointSetting() && Maze.getIsCheck() && !mNode.isCheck)
+	// 中間地点をどこかが通過したら通過していないやつは消える
+	public void deleteNotThroughCheck(MazeNode mNode) {
+		if (Maze.getCheckPointSetting() && Maze.getIsCheck() && !mNode.isCheck)
 			mNode.endProcess("D");
 	}
 
-	//ゴールの方向を検出する
-	public String getDirectionToGoal(MazeNode node){
+	// ゴールの方向を検出する
+	public String getDirectionToGoal(MazeNode node) {
 		String direction;
 		Point point = new Point(node.getPoint().x, node.getPoint().y);
 		Point goal = Maze.getGoalPoint();
@@ -208,19 +209,18 @@ public class MazeLsystem extends Lsystem{
 		double lr = point.x - goal.x;
 		boolean width = false;
 		boolean height = false;
-		if(Math.abs(ud) >= Math.abs(lr))
+		if (Math.abs(ud) >= Math.abs(lr))
 			height = true;
 		else
 			width = true;
 
-		if(height){
-			if(ud >= 0)
+		if (height) {
+			if (ud >= 0)
 				direction = "BOTOM";
 			else
 				direction = "TOP";
-		}
-		else{
-			if(lr >= 0)
+		} else {
+			if (lr >= 0)
 				direction = "RIGHT";
 			else
 				direction = "LEFT";
@@ -228,8 +228,8 @@ public class MazeLsystem extends Lsystem{
 		return direction;
 	}
 
-	//デバック用
-	public static void reset_debug_num(){
+	// デバック用
+	public static void reset_debug_num() {
 		debug_state_0 = 0;
 		debug_state_1 = 0;
 		debug_state_2 = 0;
@@ -254,73 +254,73 @@ public class MazeLsystem extends Lsystem{
 	}
 
 	/**
-	 * 0 →　3 ; 1
-	 * 0 →　d
+	 * 0 → 3 ; 1 0 → d
+	 * 
 	 * @param node
 	 */
-	private void rule_0(MazeNode node){
+	private void rule_0(MazeNode node) {
 		double random = Math.random();
 		debug_apply_0++;
-		if(random > pd){
+		if (random > pd) {
 			debug_generate_0++;
 			node.setState("3");
 			String direction = changeDirection(node, "TOP");
-			//String direction = changeDirection(node, getDirectionToGoal(node));
+			// String direction = changeDirection(node, getDirectionToGoal(node));
 			Point next_point = changePosition(node, direction);
-			if(next_point.x >= 0 && next_point.y >= 0 && next_point.x < Maze.width && next_point.y < Maze.height){
+			if (next_point.x >= 0 && next_point.y >= 0 && next_point.x < Maze.width && next_point.y < Maze.height) {
 				MazeNode node2 = new MazeNode("1", direction, node, next_point, node.getLength());
 				node.addChild(node2);
-				if(node.isCheck)
+				if (node.isCheck)
 					node2.isCheck = true;
 			}
-		}
-		else{
+		} else {
 			node.setState("d");
 		}
 	}
+
 	/**
-	 * 1 →　2
-	 * 1 →　3 ; 1
+	 * 1 → 2 1 → 3 ; 1
+	 * 
 	 * @param node
 	 */
-	private void rule_1(MazeNode node){
+	private void rule_1(MazeNode node) {
 		double random = Math.random();
 		debug_apply_1++;
-		if(random > (pa/P)){
+		if (random > (pa / P)) {
 			node.setState("2");
-		}
-		else{
+		} else {
 			debug_generate_1++;
 			node.setState("3");
 			String direction = changeDirection(node, "TOP");
 			Point next_point = changePosition(node, direction);
-			if(next_point.x >= 0 && next_point.y >= 0 && next_point.x < Maze.width && next_point.y < Maze.height){
+			if (next_point.x >= 0 && next_point.y >= 0 && next_point.x < Maze.width && next_point.y < Maze.height) {
 				MazeNode node2 = new MazeNode("1", direction, node, next_point, node.getLength());
 				node.addChild(node2);
-				if(node.isCheck)
+				if (node.isCheck)
 					node2.isCheck = true;
 			}
 		}
 	}
+
 	/**
-	 * 2 →　3 [1 ]1 ;
-	 * 2 →　3 [0 ]0
+	 * 2 → 3 [1 ]1 ; 2 → 3 [0 ]0
+	 * 
 	 * @param node
 	 */
 	private void rule_2(MazeNode node) {
 		double random = Math.random();
 		int[] num;
-		if(random <= 0.3334)
-			num = new int[]{0,1,2};
-		else if(random <= 0.6667)
-			num = new int[]{1,2,0};
+		if (random <= 0.3334)
+			num = new int[] { 0, 1, 2 };
+		else if (random <= 0.6667)
+			num = new int[] { 1, 2, 0 };
 		else
-			num = new int[]{2,0,1};
+			num = new int[] { 2, 0, 1 };
 
 		debug_apply_2++;
 		debug_generate_2++;
-		//子を３つ生成
-		if(random > (pb/(pb+pc))){
+		// 子を３つ生成
+		if (random > (pb / (pb + pc))) {
 			debug_rule_3++;
 			node.setState("3");
 			Point[] next_point = new Point[3];
@@ -331,21 +331,22 @@ public class MazeLsystem extends Lsystem{
 			next_point[num[1]] = changePosition(node, direction[num[1]]);
 			direction[num[2]] = changeDirection(node, "RIGHT");
 			next_point[num[2]] = changePosition(node, direction[num[2]]);
-			for(int i = 0;i < next_point.length;i++){
-				if(next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < Maze.width && next_point[i].y < Maze.height){
+			for (int i = 0; i < next_point.length; i++) {
+				if (next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < Maze.width
+						&& next_point[i].y < Maze.height) {
 					MazeNode node2;
-					if(i == 0)
+					if (i == 0)
 						node2 = new MazeNode("1", direction[i], node, next_point[i], node.getLength());
 					else
 						node2 = new MazeNode("1", direction[i], node, next_point[i], node.getLength());
 					node.addChild(node2);
-					if(node.isCheck)
+					if (node.isCheck)
 						node2.isCheck = true;
 				}
 			}
 		}
-		//子を２つ生成
-		else{
+		// 子を２つ生成
+		else {
 			debug_rule_2++;
 			node.setState("3");
 			Point[] next_point = new Point[2];
@@ -354,57 +355,62 @@ public class MazeLsystem extends Lsystem{
 			next_point[0] = changePosition(node, direction[0]);
 			direction[1] = changeDirection(node, "RIGHT");
 			next_point[1] = changePosition(node, direction[1]);
-			for(int i = 0;i < next_point.length;i++){
-				if(next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < Maze.width && next_point[i].y < Maze.height){
+			for (int i = 0; i < next_point.length; i++) {
+				if (next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < Maze.width
+						&& next_point[i].y < Maze.height) {
 					MazeNode node2 = new MazeNode("0", direction[i], node, next_point[i], node.getLength());
 					node.addChild(node2);
-					if(node.isCheck)
+					if (node.isCheck)
 						node2.isCheck = true;
 				}
 			}
 		}
 	}
+
 	/**
-	 * 3$ →　d
+	 * 3$ → d
+	 * 
 	 * @param node
 	 */
-	private void rule_3(MazeNode node){
+	private void rule_3(MazeNode node) {
 		debug_apply_3++;
 		double ph = Maze.getArroundSearchResultRate(node.getPoint().x, node.getPoint().y, sight);
 		double random = Math.random();
-		//視野0（評価関数無し）の場合
-		if(sight == 0)
+		// 視野0（評価関数無し）の場合
+		if (sight == 0)
 			node.setState("d");
-		else if(random > ph){
-			//node.setState("3");
-		}
-		else{
+		else if (random > ph) {
+			// node.setState("3");
+		} else {
 			node.setState("d");
 		}
 	}
+
 	/**
 	 * 終了状態
+	 * 
 	 * @param node
 	 */
-	private void rule_E(MazeNode node){
+	private void rule_E(MazeNode node) {
 		MazeNode parent = node.getParent();
-		if(parent != null){
+		if (parent != null) {
 			parent.endProcess("E");
 		}
 	}
+
 	/**
-	 * 死滅ルール
-	 * .D$ →　d
+	 * 死滅ルール .D$ → d
+	 * 
 	 * @param node
 	 */
-	private void rule_D(MazeNode node){
+	private void rule_D(MazeNode node) {
 		node.setState("D");
-		//子ノードが存在しない場合のみ
-		if(node.getChildrenByArrayList().size() == 0){
+		// 子ノードが存在しない場合のみ
+		if (node.getChildrenByArrayList().size() == 0) {
 			MazeNode parent = node.getParent();
-			if(parent != null){
-				if(node.getChildrenByArrayList().size() == 0){
-					if(!parent.getState().equals("E"))
+			if (parent != null) {
+				if (node.getChildrenByArrayList().size() == 0) {
+					if (!parent.getState().equals("E"))
 						parent.setState("d");
 					node.dead();
 					debug_dead_count++;
@@ -414,69 +420,84 @@ public class MazeLsystem extends Lsystem{
 			}
 		}
 	}
+
 	/**
-	 * 特別死滅ルール2
-	 * .I$ →　I
+	 * 特別死滅ルール2 .I$ → I
+	 * 
 	 * @param node
 	 */
-	private void rule_I(MazeNode node){
+	private void rule_I(MazeNode node) {
 		node.setState("I");
-		//子ノードが存在しない場合のみ
-		if(node.getChildrenByArrayList().size() == 0){
+		// 子ノードが存在しない場合のみ
+		if (node.getChildrenByArrayList().size() == 0) {
 			MazeNode parent = node.getParent();
-			if(parent != null){
+			if (parent != null) {
 				node.dead();
 			}
 		}
 	}
+
 	/**
-	 * 成長と死滅の中間状態
-	 * 問題に合わせた評価関数で次の状態を決めたい
-	 * d →　D
-	 * d →　0
+	 * 成長と死滅の中間状態 問題に合わせた評価関数で次の状態を決めたい d → D d → 0
+	 * 
 	 * @param node
 	 */
-	private void rule_d(MazeNode node){
+	private void rule_d(MazeNode node) {
 		debug_apply_d++;
 		double ph = Maze.getArroundSearchResultRate(node.getPoint().x, node.getPoint().y, sight);
 		double random = Math.random();
-		//視野0（評価関数無し）の場合
-		if(sight == 0)
+		// 視野0（評価関数無し）の場合
+		if (sight == 0)
 			node.setState("D");
-		else if(random > ph){
+		else if (random > ph) {
 			node.setState("0");
-		}
-		else{
+		} else {
 			node.setState("D");
 		}
 	}
 
-	public String changeDirection(MazeNode node,String change_type){
+	public String changeDirection(MazeNode node, String change_type) {
 		String direction = "";
 		switch (node.getDirection()) {
 		case "8":
-			if(change_type.equals("TOP")) direction = "8";
-			else if(change_type.equals("RIGHT")) direction = "6";
-			else if(change_type.equals("LEFT")) direction = "4";
-			else if(change_type.equals("BOTOM")) direction = "2";
+			if (change_type.equals("TOP"))
+				direction = "8";
+			else if (change_type.equals("RIGHT"))
+				direction = "6";
+			else if (change_type.equals("LEFT"))
+				direction = "4";
+			else if (change_type.equals("BOTOM"))
+				direction = "2";
 			break;
 		case "6":
-			if(change_type.equals("TOP")) direction = "6";
-			else if(change_type.equals("RIGHT")) direction = "2";
-			else if(change_type.equals("LEFT")) direction = "8";
-			else if(change_type.equals("BOTOM")) direction = "4";
+			if (change_type.equals("TOP"))
+				direction = "6";
+			else if (change_type.equals("RIGHT"))
+				direction = "2";
+			else if (change_type.equals("LEFT"))
+				direction = "8";
+			else if (change_type.equals("BOTOM"))
+				direction = "4";
 			break;
 		case "4":
-			if(change_type.equals("TOP")) direction = "4";
-			else if(change_type.equals("RIGHT")) direction = "8";
-			else if(change_type.equals("LEFT")) direction = "2";
-			else if(change_type.equals("BOTOM")) direction = "6";
+			if (change_type.equals("TOP"))
+				direction = "4";
+			else if (change_type.equals("RIGHT"))
+				direction = "8";
+			else if (change_type.equals("LEFT"))
+				direction = "2";
+			else if (change_type.equals("BOTOM"))
+				direction = "6";
 			break;
 		case "2":
-			if(change_type.equals("TOP")) direction = "2";
-			else if(change_type.equals("RIGHT")) direction = "4";
-			else if(change_type.equals("LEFT")) direction = "6";
-			else if(change_type.equals("BOTOM")) direction = "8";
+			if (change_type.equals("TOP"))
+				direction = "2";
+			else if (change_type.equals("RIGHT"))
+				direction = "4";
+			else if (change_type.equals("LEFT"))
+				direction = "6";
+			else if (change_type.equals("BOTOM"))
+				direction = "8";
 			break;
 		default:
 			System.err.println("direction error");
@@ -485,7 +506,7 @@ public class MazeLsystem extends Lsystem{
 		return direction;
 	}
 
-	public Point changePosition(MazeNode node, String direction){
+	public Point changePosition(MazeNode node, String direction) {
 		Point next_point;
 		int x = node.getPoint().x;
 		int y = node.getPoint().y;
@@ -503,30 +524,31 @@ public class MazeLsystem extends Lsystem{
 			next_point = new Point(x, y - 1);
 			break;
 		default:
-			next_point = new Point(x , y);
-			System.err.println( "想定外の方向を指定しています\n"  );
+			next_point = new Point(x, y);
+			System.err.println("想定外の方向を指定しています\n");
 			break;
 		}
 
 		return next_point;
 	}
 
-	//xが0~1のシグモイド関数
-	double sigmoid(double x, double gain)
-	{
-		return 1.0 / (1.0 + Math.exp(-gain * (x*2-1)));
+	// xが0~1のシグモイド関数
+	double sigmoid(double x, double gain) {
+		return 1.0 / (1.0 + Math.exp(-gain * (x * 2 - 1)));
 	}
 
-	//paをセット
-	public void setPa(int pa){
+	// paをセット
+	public void setPa(int pa) {
 		this.pa_rate = pa;
 	}
-	//pbをセット
-	public void setPb(int pb){
+
+	// pbをセット
+	public void setPb(int pb) {
 		this.pb_rate = pb;
 	}
-	//pcをセット
-	public void setPc(int pc){
+
+	// pcをセット
+	public void setPc(int pc) {
 		this.pc_rate = pc;
 	}
 
