@@ -6,7 +6,7 @@ public abstract class Cell {
 	// 次状態保持
 	protected String next_state;
 	// 死滅フラグ
-	protected boolean dead = false;
+	protected boolean deadflag = false;
 
 	public Cell() {
 	}

@@ -23,11 +23,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import processing.core.PApplet;
+
 import New.DecidePoint;
 import fractal.CalcFractalDimension;
 import lsystem.Lsystem;
 import lsystem.MazeLsystem;
-import processing.core.PApplet;
 import serachItem.MazeNode;
 
 public class Main_Maze extends JFrame implements MouseListener {
@@ -212,7 +213,6 @@ public class Main_Maze extends JFrame implements MouseListener {
 			result.close();
 
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 

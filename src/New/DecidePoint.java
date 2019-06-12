@@ -14,11 +14,12 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.management.ConstructorParameters;
+// import javax.management.ConstructorParameters;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class DecidePoint extends JFrame implements MouseListener {
+	private static final long serialVersionUID = 1L;
 	Image img;
 	Toolkit toolkit;
 	Display panel;
@@ -42,12 +43,12 @@ public class DecidePoint extends JFrame implements MouseListener {
 
 	Point point;
 	private File f;
-	private File csv;
+	// private File csv;
 	private BufferedImage read;
 	private int w;
 	private int h;
 
-	private int p;
+	// private int p;
 
 	// 中間地点の有無
 	private boolean isCheck;

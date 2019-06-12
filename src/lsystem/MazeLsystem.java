@@ -167,6 +167,9 @@ public class MazeLsystem extends Lsystem {
 		return false;
 	}
 
+	// TODO 機能の見直し
+	// Main_Mazeに依存したメソッド
+	//
 	// 終了処理(全てのノードの状態を"E"にする)
 	public void finish(MazeNode node) {
 		int step = Main_Maze.step_num;

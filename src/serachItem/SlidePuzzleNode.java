@@ -124,11 +124,11 @@ public class SlidePuzzleNode extends Cell {
 	}
 
 	public void dead() {
-		dead = true;
+		deadflag = true;
 	}
 
 	public boolean getDeadFlag() {
-		return dead;
+		return deadflag;
 	}
 
 	public int getStep() {
@@ -136,14 +136,14 @@ public class SlidePuzzleNode extends Cell {
 	}
 
 	public void delete() {
-		if (dead) {
+		if (deadflag) {
 			// SlidePuzzle.MAP.remove(this.boardState);
 			if (parent != null)
 				parent.children.remove(this);
 			for (SlidePuzzleNode child : children) {
 				child.parent = null;
 			}
-			// TODO 怪しい
+			// TODO 動作要確認
 			SlidePuzzle.MAP.remove(this.boardState);
 			parent = null;
 			children.clear();
@@ -153,7 +153,7 @@ public class SlidePuzzleNode extends Cell {
 		}
 	}
 
-	// TODO 親の処理まだ甘い
+	// TODO 親の処理改良すべき
 	@Override
 	public void update() {
 		parent = next_parent;

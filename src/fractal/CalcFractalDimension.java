@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 /**
- * 画像のフラクタル次元を計算する
- * 現状、正方形以外の画像は計算できない
+ * 画像のフラクタル次元を計算する 現状、正方形以外の画像は計算できない
+ * 
  * @author pp
  *
  */
 public class CalcFractalDimension {
 
-	//File f_in = new File("./resources/black.png");
-	//File f_in = new File("./result/test1.png");
+	// File f_in = new File("./resources/black.png");
+	// File f_in = new File("./result/test1.png");
 	File f_in = new File("./resources/monochrome1.bmp");
 	String f_out = "./result/fractalDimension";
 	ArrayList<String> outputData = new ArrayList<String>();
@@ -26,57 +26,61 @@ public class CalcFractalDimension {
 	int height = 0;
 	int[][] WALL;
 	ArrayList<Double> dimension_x = new ArrayList<Double>();
-	ArrayList<Double> count_y = new ArrayList<Double>();	
-	
-	public CalcFractalDimension(){}
+	ArrayList<Double> count_y = new ArrayList<Double>();
+
+	public CalcFractalDimension() {
+	}
+
 	/**
-	 * フラクタル次元の計算
-	 * 出力はcsvのみ
+	 * フラクタル次元の計算 出力はcsvのみ
+	 * 
 	 * @param file_in
 	 * @param file_out
 	 */
-	public CalcFractalDimension(String file_in,String file_out){
+	public CalcFractalDimension(String file_in, String file_out) {
 		f_in = new File(file_in);
-		//.csvの拡張子とる
+		// .csvの拡張子とる
 		String[] f_outs = file_out.split(".");
-		if(f_outs.length > 1) f_out = f_outs[0];
-		else f_out = file_out;
+		if (f_outs.length > 1)
+			f_out = f_outs[0];
+		else
+			f_out = file_out;
 		run();
 	}
-	public void run(){
+
+	public void run() {
 		input();
 		calc();
 		output_slope();
-		//output_allData();
+		// output_allData();
 	}
-	public void input(){
+
+	public void input() {
 		try {
 			BufferedImage read;
 			read = ImageIO.read(f_in);
 			width = read.getWidth();
 			height = read.getHeight();
 
-			System.out.println(width +"," + height);
-			
-			
-			//TODO 特別措置として320,320でクロップしてる。画像全体の次元を求める場合にはクロップ必要ない
+			System.out.println(width + "," + height);
+
+			// TODO 特別措置として320,320でクロップしてる。画像全体の次元を求める場合にはクロップ必要ない
 			width = 320;
 			height = 320;
-			//width = 580;
-			//height = 580;
+			// width = 580;
+			// height = 580;
 
-			
 			WALL = new int[width][height];
 
-			for(int y = 0;y < height;y++){
-				for(int x = 0;x < width;x++){
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
 
 					int c = read.getRGB(x, y);
 					int r = r(c);
 					int g = g(c);
 					int b = b(c);
-					//黒以外のマス
-					if(r>0 || g>0 || b>0){
+					// 黒以外のマス
+					if (r > 0 || g > 0 || b > 0) {
 						WALL[x][y] = 1;
 					}
 
@@ -84,83 +88,83 @@ public class CalcFractalDimension {
 			}
 			System.out.println("読み込み完了");
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-		} 
+		}
 	}
 
-	public void calc(){
+	public void calc() {
 		int length = width;
 		boolean find = false;
 		ArrayList<Integer> box = new ArrayList<Integer>();
-		for(int i = 1;i <= length;i++){
-			double amari = length%i;
-			if(amari == 0){
+		for (int i = 1; i <= length; i++) {
+			double amari = length % i;
+			if (amari == 0) {
 				box.add(i);
 			}
 		}
 
-		for(int size:box){
+		for (int size : box) {
 			int count = 0;
-			int sho = length/size;
-			//boxのyループ
-			for(int Ly = 0;Ly < sho;Ly++){
-				//boxのxループ
-				for(int Lx = 0;Lx < sho;Lx++){
-					//box内のyループ
-					for(int y = Ly*size;y < (Ly+1)*size;y++){
-						//box内のxループ
-						for(int x = Lx*size;x < (Lx+1)*size;x++){
+			int sho = length / size;
+			// boxのyループ
+			for (int Ly = 0; Ly < sho; Ly++) {
+				// boxのxループ
+				for (int Lx = 0; Lx < sho; Lx++) {
+					// box内のyループ
+					for (int y = Ly * size; y < (Ly + 1) * size; y++) {
+						// box内のxループ
+						for (int x = Lx * size; x < (Lx + 1) * size; x++) {
 
-							if(WALL[x][y] > 0){
+							if (WALL[x][y] > 0) {
 								find = true;
 								break;
 							}
 
 						}
-						if(find == true) break;
+						if (find == true)
+							break;
 					}
-					//box内に目標があれば
-					if(find == true){
+					// box内に目標があれば
+					if (find == true) {
 						count++;
 						find = false;
 					}
 				}
 			}
-			//リストにデータ追加
+			// リストにデータ追加
 			double log_size = Math.log(size);
 			double log_count = Math.log(count);
 			dimension_x.add(log_size);
 			count_y.add(log_count);
-			outputData.add(log_size+","+log_count);
+			outputData.add(log_size + "," + log_count);
 		}
 		System.out.println("計算完了");
 	}
 
-	public void output_allData(){
+	public void output_allData() {
 		try {
-			FileWriter outFile = new FileWriter(f_out+"AllData.csv");
+			FileWriter outFile = new FileWriter(f_out + "AllData.csv");
 			BufferedWriter outBuffer = new BufferedWriter(outFile);
 
-			for(int i = 0;i < outputData.size();i++){
+			for (int i = 0; i < outputData.size(); i++) {
 				String s = outputData.get(i);
-				outBuffer.write(s+"\n");
+				outBuffer.write(s + "\n");
 			}
 
 			outBuffer.flush();
 			outBuffer.close();
 			System.out.println("書き出し完了");
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public double calc_slope(){
+	public double calc_slope() {
 		int i;
 
 		double a = 0, b = 0;
 		double sum_xy = 0, sum_x = 0, sum_y = 0, sum_x2 = 0;
-		
+
 		int data_size = dimension_x.size();
 
 		for (i = 0; i < data_size; i++) {
@@ -177,42 +181,48 @@ public class CalcFractalDimension {
 
 		return a;
 	}
-	public void output_slope(){
+
+	public void output_slope() {
 		try {
-			FileWriter outFile = new FileWriter(f_out+"Slope.csv",true);
+			FileWriter outFile = new FileWriter(f_out + "Slope.csv", true);
 			BufferedWriter outBuffer = new BufferedWriter(outFile);
 
-			outBuffer.write(calc_slope()*(-1)+"\n");
+			outBuffer.write(calc_slope() * (-1) + "\n");
 
 			outBuffer.flush();
 			outBuffer.close();
 			System.out.println("書き出し完了");
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ
 		CalcFractalDimension cDimension = new CalcFractalDimension();
 		cDimension.run();
 	}
-	public static int a(int c){
-		return c>>>24;
+
+	public static int a(int c) {
+		return c >>> 24;
 	}
-	public static int r(int c){
-		return c>>16&0xff;
+
+	public static int r(int c) {
+		return c >> 16 & 0xff;
 	}
-	public static int g(int c){
-		return c>>8&0xff;
+
+	public static int g(int c) {
+		return c >> 8 & 0xff;
 	}
-	public static int b(int c){
-		return c&0xff;
+
+	public static int b(int c) {
+		return c & 0xff;
 	}
-	public static int rgb(int r,int g,int b){
-		return 0xff000000 | r <<16 | g <<8 | b;
+
+	public static int rgb(int r, int g, int b) {
+		return 0xff000000 | r << 16 | g << 8 | b;
 	}
-	public static int argb(int a,int r,int g,int b){
-		return a<<24 | r <<16 | g <<8 | b;
+
+	public static int argb(int a, int r, int g, int b) {
+		return a << 24 | r << 16 | g << 8 | b;
 	}
 }
