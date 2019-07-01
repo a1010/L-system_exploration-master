@@ -155,10 +155,10 @@ public class SlidePuzzle {
 		// "0"が出現する位置をhorizonで割ったときの商が行数
 		// "0"が出現する位置をhorizonで割ったときの余りが列数
 		//
-		// 0 (0,0) (1,0) (2,0)
-		// 1 (0,1) (1,1) (2,1)
-		// 2 (0,2) (1,2) (2,2)
-		// (x,y) 0 1 2
+		// 0 0:(0,0) 1:(0,1) 2:(0,2)
+		// 1 3:(1,0) 4:(1,1) 5:(1,2)
+		// 2 6:(2,0) 7:(2,1) 8:(2,2)
+		// (y,x) 0 1 2
 		//
 		// くらい書かないと即座に理解できないわボケ〇すぞ!!
 		int y = zero_index / horizon;
@@ -167,6 +167,7 @@ public class SlidePuzzle {
 		if (y == 0) {
 			return null;
 		}
+		// y=1,2,3ならそれでいいがy=1,2しかねぇぞ
 		int target_index = (y - 1) * horizon + x;
 		char target_num = sb.charAt(target_index);
 		sb.setCharAt(zero_index, target_num);

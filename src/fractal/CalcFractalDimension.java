@@ -19,12 +19,16 @@ public class CalcFractalDimension {
 
 	// File f_in = new File("./resources/black.png");
 	// File f_in = new File("./result/test1.png");
-	File f_in = new File("./resources/monochrome1.bmp");
+	// File f_in = new File("./resources/monochrome1.bmp");
+	File f_in = new File("./51,0.png");
 	String f_out = "./result/fractalDimension";
+	// for output .csv pattern because String type list
 	ArrayList<String> outputData = new ArrayList<String>();
 	int width = 0;
 	int height = 0;
+	// wall
 	int[][] WALL;
+	//
 	ArrayList<Double> dimension_x = new ArrayList<Double>();
 	ArrayList<Double> count_y = new ArrayList<Double>();
 
@@ -65,8 +69,8 @@ public class CalcFractalDimension {
 			System.out.println(width + "," + height);
 
 			// TODO 特別措置として320,320でクロップしてる。画像全体の次元を求める場合にはクロップ必要ない
-			width = 320;
-			height = 320;
+			// width = 320;
+			// height = 320;
 			// width = 580;
 			// height = 580;
 
@@ -96,6 +100,7 @@ public class CalcFractalDimension {
 		int length = width;
 		boolean find = false;
 		ArrayList<Integer> box = new ArrayList<Integer>();
+		// 約数
 		for (int i = 1; i <= length; i++) {
 			double amari = length % i;
 			if (amari == 0) {
@@ -103,6 +108,8 @@ public class CalcFractalDimension {
 			}
 		}
 
+		// 拡張for文
+		// size:box size
 		for (int size : box) {
 			int count = 0;
 			int sho = length / size;
@@ -198,7 +205,8 @@ public class CalcFractalDimension {
 	}
 
 	public static void main(String[] args) {
-		CalcFractalDimension cDimension = new CalcFractalDimension();
+		// CalcFractalDimension cDimension = new CalcFractalDimension();
+		CalcFractalDimension cDimension = new CalcFractalDimension("point.png", "./result/fractalDimension");
 		cDimension.run();
 	}
 
