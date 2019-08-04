@@ -64,7 +64,6 @@ public class MazeLsystem extends Lsystem {
 
 	@Override
 	public void apply(Cell node) {
-		// TODO 自動生成されたメソッド・スタブ
 		MazeNode mNode = (MazeNode) node;
 		if (checkFinish(mNode)) {
 			if (Maze.getCheckPointSetting()) {
@@ -93,6 +92,7 @@ public class MazeLsystem extends Lsystem {
 			pb_rate = 1;
 			pc_rate = 1;
 		}
+
 		// シグモイド関数
 		double sig = sigmoid((double) Maze.getNodeCount() / (double) max_node_count, 4);
 		P = 1 - sig;
@@ -141,7 +141,6 @@ public class MazeLsystem extends Lsystem {
 	// 終了状態チェック
 	@Override
 	public boolean checkFinish(Cell node) {
-		// TODO 自動生成されたメソッド・スタブ
 		MazeNode mNode = (MazeNode) node;
 		if (Maze.checkGoalArrival(mNode)) {
 			return true;
@@ -167,7 +166,7 @@ public class MazeLsystem extends Lsystem {
 		return false;
 	}
 
-	// TODO 機能の見直し
+	// TODO 機能の見直し by titanis
 	// Main_Mazeに依存したメソッド
 	//
 	// 終了処理(全てのノードの状態を"E"にする)

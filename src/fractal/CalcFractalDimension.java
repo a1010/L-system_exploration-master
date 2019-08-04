@@ -36,7 +36,7 @@ public class CalcFractalDimension {
 	}
 
 	/**
-	 * フラクタル次元の計算 出力はcsvのみ
+	 * フラクタル次元の計算 出力は.csvのみ
 	 * 
 	 * @param file_in
 	 * @param file_out
@@ -49,7 +49,6 @@ public class CalcFractalDimension {
 			f_out = f_outs[0];
 		else
 			f_out = file_out;
-		run();
 	}
 
 	public void run() {
@@ -66,7 +65,7 @@ public class CalcFractalDimension {
 			width = read.getWidth();
 			height = read.getHeight();
 
-			System.out.println(width + "," + height);
+			System.out.println("width,height: " + width + "," + height);
 
 			// TODO 特別措置として320,320でクロップしてる。画像全体の次元を求める場合にはクロップ必要ない
 			// width = 320;
@@ -148,6 +147,7 @@ public class CalcFractalDimension {
 		System.out.println("計算完了");
 	}
 
+	// log_size,log_countの全データを.csv形式で出力
 	public void output_allData() {
 		try {
 			FileWriter outFile = new FileWriter(f_out + "AllData.csv");
@@ -166,6 +166,7 @@ public class CalcFractalDimension {
 		}
 	}
 
+	// フラクタル次元の計算(最小二乗法でフィッティング)
 	public double calc_slope() {
 		int i;
 
@@ -184,11 +185,12 @@ public class CalcFractalDimension {
 		a = (data_size * sum_xy - sum_x * sum_y) / (data_size * sum_x2 - Math.pow(sum_x, 2));
 		b = (sum_x2 * sum_y - sum_xy * sum_x) / (data_size * sum_x2 - Math.pow(sum_x, 2));
 
-		System.out.println(a);
+		System.out.println("fractalDimension: " + (-a));
 
 		return a;
 	}
 
+	// フラクタル次元を.csv形式で出力
 	public void output_slope() {
 		try {
 			FileWriter outFile = new FileWriter(f_out + "Slope.csv", true);
@@ -206,10 +208,11 @@ public class CalcFractalDimension {
 
 	public static void main(String[] args) {
 		// CalcFractalDimension cDimension = new CalcFractalDimension();
-		CalcFractalDimension cDimension = new CalcFractalDimension("point.png", "./result/fractalDimension");
+		CalcFractalDimension cDimension = new CalcFractalDimension("line.png", "./result/fractalDimension");
 		cDimension.run();
 	}
 
+	// 色の補正
 	public static int a(int c) {
 		return c >>> 24;
 	}
