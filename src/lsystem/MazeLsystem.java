@@ -3,8 +3,11 @@ package lsystem;
 import java.awt.Point;
 
 import maze_with_Lsystem.Main_Maze;
+// Main_Mazeに依存しちゃあかんやろ
 import maze_with_Lsystem.Maze;
 import serachItem.Cell;
+// Cellをimportする？
+// 引数を持たないコンストラクタを定義すればよくない？
 import serachItem.MazeNode;
 
 public class MazeLsystem extends Lsystem {
