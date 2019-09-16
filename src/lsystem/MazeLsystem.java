@@ -13,16 +13,21 @@ import serachItem.MazeNode;
 public class MazeLsystem extends Lsystem {
 
 	public int max_node_count;
+	// ノードの数
 	public int sight;
+	// ノードを中心とする視野？
+
 	private double pa_rate;
 	private double pb_rate;
 	private double pc_rate;
+	// 分岐確率
 
 	private double pd;
 	private double pa;
 	private double pb;
 	private double pc;
 	private double P;
+	// 分岐確率
 
 	public static int debug_state_0 = 0;
 	public static int debug_state_1 = 0;
@@ -97,6 +102,7 @@ public class MazeLsystem extends Lsystem {
 		}
 
 		// シグモイド関数
+		// ＿/￣みたいな関数
 		double sig = sigmoid((double) Maze.getNodeCount() / (double) max_node_count, 4);
 		P = 1 - sig;
 		pd = sig;

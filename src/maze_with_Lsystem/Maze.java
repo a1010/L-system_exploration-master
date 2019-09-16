@@ -19,17 +19,21 @@ public class Maze {
 	public static int height;
 	public static ArrayList<Point> goal = new ArrayList<Point>();
 	public static boolean finishSetUp;
+
 	private static MazeNode[][] MAP;
 	private static boolean[][] searchMAP;
 	private static boolean[][] wallMAP;
 	private static boolean[][] wallMAP2;
+
 	private static byte[][] startPoint;
 	private static byte[][] goalPoint;
 	private static byte[][] checkPoint;
 	private static int[][] Field;
+
 	private static boolean wall_setting;
 	private static boolean field_setting;
 	private static boolean checkPoint_setting;
+
 	private static int searchCount;
 	private static int node_count;
 	private static int wall_count;
