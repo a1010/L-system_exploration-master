@@ -17,7 +17,7 @@ goal_num : 1
 //探索打ち切りステップ数
 close_step : 30000
 //迷路ファイル(餌の位置を設定してるだけ。)
-maze_file : google.png
+maze_file : ./resource/google.png
 //maze_file : orimap1.png
 //maze_file : ./resources/Maze2_2.png
 //maze_file : meiro2.png
@@ -25,7 +25,7 @@ maze_file : google.png
 //maze_file : ./resources/monochrome1_map.bmp
 //maze_file : ./resources/monochrome2_map.bmp
 //詳細迷路ファイル（MAP内の高低差（迷路）を記述）
-maze_file_detail : meiro.csv
+maze_file_detail : ./resource/meiro.csv
 //maze_file_detail : ./resources/ConvertMap_Max=10_step=10_grade=0_Maze2.csv
 //maze_file_detail : ./resources/ConvertMap_Max=4_step=1_grade=5_Maze2.csv
 //maze_file_detail : ./resources/black.csv
