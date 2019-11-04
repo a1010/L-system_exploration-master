@@ -223,9 +223,9 @@ public class Maze {
 			startPoint = new byte[width][height];
 			goalPoint = new byte[width][height];
 
-			MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
-			boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
-			boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
+			// MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
+			// boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
+			// boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
 			byte[][] startPoint_t = new byte[width * 3][height * 3];
 			byte[][] goalPoint_t = new byte[width * 3][height * 3];
 
@@ -246,7 +246,7 @@ public class Maze {
 			// System.out.printf(sr+":"+sg+":"+sb);
 
 			for (int y = 0; y < h; y++) {
-				boolean way = false;
+				// boolean way = false;
 				for (int x = 0; x < w; x++) {
 
 					int c = read.getRGB(x, y);
@@ -347,9 +347,9 @@ public class Maze {
 			startPoint = new byte[width][height];
 			goalPoint = new byte[width][height];
 
-			MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
-			boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
-			boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
+			// MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
+			// boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
+			// boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
 			byte[][] startPoint_t = new byte[width * 3][height * 3];
 			byte[][] goalPoint_t = new byte[width * 3][height * 3];
 
@@ -453,9 +453,9 @@ public class Maze {
 			goalPoint = new byte[width][height];
 			checkPoint = new byte[width][height];
 
-			MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
-			boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
-			boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
+			// MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
+			// boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
+			// boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
 			byte[][] startPoint_t = new byte[width * 3][height * 3];
 			byte[][] goalPoint_t = new byte[width * 3][height * 3];
 			byte[][] checkPoint_t = new byte[width * 3][height * 3];
@@ -542,9 +542,9 @@ public class Maze {
 			goalPoint = new byte[width][height];
 			checkPoint = new byte[width][height];
 
-			MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
-			boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
-			boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
+			// MazeNode[][] MAP_t = new MazeNode[width * 3][height * 3];
+			// boolean[][] searchMAP_t = new boolean[width * 3][height * 3];
+			// boolean[][] wallMAP_t = new boolean[width * 3][height * 3];
 			byte[][] startPoint_t = new byte[width * 3][height * 3];
 			byte[][] goalPoint_t = new byte[width * 3][height * 3];
 			byte[][] checkPoint_t = new byte[width * 3][height * 3];
@@ -944,7 +944,7 @@ public class Maze {
 	}
 
 	public static void main(String args[]) {
-		Maze maze = new Maze("./resources/Maze2_2.png");
-		// System.out.println(maze.searchMAP[5][0]);
+		Maze maze = new Maze("./resources/meiro.png");
+		System.out.println(maze.getTotalCell());
 	}
 }
