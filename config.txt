@@ -4,7 +4,7 @@ drawing : false
 draw_searchMAP : true
 //フラクタル次元の計算
 calc_fractalDimension : true
-//
+//フレームレート
 frame_rate : 20
 //最大ノード数
 max_node_size : 10000
@@ -17,20 +17,12 @@ goal_num : 1
 //探索打ち切りステップ数
 close_step : 30000
 //迷路ファイル(餌の位置を設定してるだけ。)
-maze_file : ./resources/51,0.png
-//maze_file : orimap1.png
-//maze_file : ./resources/Maze2_2.png
-//maze_file : meiro2.png
+maze_file : ./resources/Maze2_2.png
 //maze_file : ./resources/black.png
 //maze_file : ./resources/monochrome1_map.bmp
 //maze_file : ./resources/monochrome2_map.bmp
 //詳細迷路ファイル（MAP内の高低差（迷路）を記述）
 maze_file_detail : ./resources/meiro.csv
-//maze_file_detail : ./resources/ConvertMap_Max=10_step=10_grade=0_Maze2.csv
-//maze_file_detail : ./resources/ConvertMap_Max=4_step=1_grade=5_Maze2.csv
-//maze_file_detail : ./resources/black.csv
-//maze_file_detail : ./resources/monochrome1.csv
-//maze_file_detail : ./resources/monochrome2.csv
 //結果保存フォルダ
 img_dir : ./result/
 //分岐確率

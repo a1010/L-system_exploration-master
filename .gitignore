@@ -2,6 +2,7 @@ bin/
 result/
 src/testGephiAPI/
 src/gephi
+src/maze_with_Lsystem/Simulator3D.java
 
 
 
