@@ -1,5 +1,5 @@
 ﻿//探索中の描画
-drawing : false
+drawing : true
 //探索済みセルの描画
 draw_searchMAP : true
 //フラクタル次元の計算
@@ -17,7 +17,8 @@ goal_num : 1
 //探索打ち切りステップ数
 close_step : 30000
 //迷路ファイル(餌の位置を設定してるだけ。)
-maze_file : ./resources/Maze2_2.png
+maze_file : ../jupyter_notebook/images/paris.png
+//maze_file : ./resources/Maze2_2.png
 //maze_file : ./resources/black.png
 //maze_file : ./resources/monochrome1_map.bmp
 //maze_file : ./resources/monochrome2_map.bmp

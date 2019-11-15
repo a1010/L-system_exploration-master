@@ -469,9 +469,9 @@ public class Main_Maze extends JFrame implements MouseListener {
 		}
 
 		// スタート位置、ゴール位置を好きなように決める、壁のみ
-		// DecidePoint dp = new DecidePoint(maze_file);
+		DecidePoint dp = new DecidePoint(maze_file);
 		// 中間地点を設定する場合
-		DecidePoint dp = new DecidePoint(maze_file, 1);
+		// DecidePoint dp = new DecidePoint(maze_file, 1);
 
 		dp.setVisible(true);
 		while (!dp.isSetPoint()) {
@@ -479,7 +479,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 		}
 		Point startPoint = dp.getStartPoint();
 		Point goalPoint = dp.getGoalPoint();
-		Point checkPoint = dp.getCheckPoint();
+		// Point checkPoint = dp.getCheckPoint();
 
 		// ただの壁あり
 		Maze sp = new Maze(maze_file, startPoint, goalPoint, 6);

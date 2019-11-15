@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - CalcFractalDimension",
+            "request": "launch",
+            "mainClass": "fractal.CalcFractalDimension",
+            "projectName": "L-system_exploration-master_719effc1"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"

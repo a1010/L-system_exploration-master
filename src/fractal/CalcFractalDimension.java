@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -17,10 +18,8 @@ import javax.imageio.ImageIO;
  */
 public class CalcFractalDimension {
 
-	// File f_in = new File("./resources/black.png");
-	// File f_in = new File("./result/test1.png");
-	// File f_in = new File("./resources/monochrome1.bmp");
-	File f_in = new File("./51,0.png");
+	String f_in_name = "./resources/black.png";
+	File f_in = new File(f_in_name);
 	String f_out = "./result/fractalDimension";
 	// for output .csv pattern because String type list
 	ArrayList<String> outputData = new ArrayList<String>();
@@ -41,8 +40,9 @@ public class CalcFractalDimension {
 	 * @param file_in
 	 * @param file_out
 	 */
-	public CalcFractalDimension(String file_in, String file_out) {
-		f_in = new File(file_in);
+	public CalcFractalDimension(String file_in_name, String file_out) {
+		this.f_in_name = file_in_name;
+		this.f_in = new File(file_in_name);
 		// .csvの拡張子とる
 		String[] f_outs = file_out.split(".");
 		if (f_outs.length > 1)
@@ -51,13 +51,16 @@ public class CalcFractalDimension {
 			f_out = file_out;
 	}
 
-	public void run() {
+	public void run(int div_num) {
 		input();
-		calc();
+		calc(div_num);
 		output_slope();
 		// output_allData();
 	}
 
+	/**
+	 * 入力画像のクロップと地図情報への変換
+	 */
 	public void input() {
 		try {
 			BufferedImage read;
@@ -70,8 +73,24 @@ public class CalcFractalDimension {
 			// TODO 特別措置として320,320でクロップしてる。画像全体の次元を求める場合にはクロップ必要ない
 			// width = 320;
 			// height = 320;
-			// width = 580;
-			// height = 580;
+
+			// TODO 画像を分割するため特定の大きさを要求する720x720でクロップ
+			// 約数が多い120の倍数の画像を使用する
+			// 120の約数は 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120 の16個
+			// フラクタル次元を計算するために約数が30個存在する720を使う
+			width = 720;
+			height = 720;
+
+			// 画像の縦横で短いほうの1桁目を切り捨てた値でクロップしたいとき用
+			// if (width < height) {
+			// width /= 10;
+			// height = width *= 10;
+			// } else {
+			// height /= 10;
+			// width = height *= 10;
+			// }
+
+			System.out.println("クロップ後サイズ\nwidth,height: " + width + "," + height);
 
 			WALL = new int[width][height];
 
@@ -96,16 +115,26 @@ public class CalcFractalDimension {
 	}
 
 	public void calc() {
+		this.calc(0);
+	}
+
+	public void calc(int div_num) {
 		int length = width;
 		boolean find = false;
-		ArrayList<Integer> box = new ArrayList<Integer>();
-		// 約数
-		for (int i = 1; i <= length; i++) {
-			double amari = length % i;
-			if (amari == 0) {
-				box.add(i);
-			}
-		}
+
+		// 地図画像を720x720のサイズとした場合の約数
+		ArrayList<Integer> box = new ArrayList<Integer>(Arrays.asList(720, 360, 240, 180, 144, 120, 90, 80, 72, 60, 48,
+				45, 40, 36, 30, 24, 20, 18, 16, 15, 12, 10, 9, 8, 6, 5, 4, 3, 2, 1));
+
+		// 約数を計算により求める場合は以下を使う
+		// ArrayList<Integer> box = new ArrayList<Integer>();
+		// // 約数
+		// for (int i = 1; i <= length; i++) {
+		// double amari = length % i;
+		// if (amari == 0) {
+		// box.add(i);
+		// }
+		// }
 
 		// 拡張for文
 		// size:box size
@@ -196,8 +225,13 @@ public class CalcFractalDimension {
 			FileWriter outFile = new FileWriter(f_out + "Slope.csv", true);
 			BufferedWriter outBuffer = new BufferedWriter(outFile);
 
-			outBuffer.write(calc_slope() * (-1) + "\n");
+			// // ファイルパスからファイル名を抽出
+			// String[] f_path = this.f_in_name.split("/");
+			// String f_name = f_path[f_path.length-1];
 
+			// フラクタル次元とともに画像ファイルパスを記録
+			outBuffer.write(calc_slope() * (-1) + "," + f_in_name + "\n");
+			outBuffer.write("\n");
 			outBuffer.flush();
 			outBuffer.close();
 			System.out.println("書き出し完了");
@@ -207,9 +241,11 @@ public class CalcFractalDimension {
 	}
 
 	public static void main(String[] args) {
+		int div_num = 0;
 		// CalcFractalDimension cDimension = new CalcFractalDimension();
-		CalcFractalDimension cDimension = new CalcFractalDimension("line.png", "./result/fractalDimension");
-		cDimension.run();
+		CalcFractalDimension cDimension = new CalcFractalDimension("C:/LAB/FLSpy/images/Bangkok, Thailand_2.png",
+				"./result/fractalDimension");
+		cDimension.run(div_num);
 	}
 
 	// 色の補正
