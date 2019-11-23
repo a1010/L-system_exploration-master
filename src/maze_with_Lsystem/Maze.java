@@ -22,7 +22,7 @@ public class Maze {
 
 	private static MazeNode[][] MAP;
 	private static boolean[][] searchMAP;
-	private static boolean[][] wallMAP;
+	public static boolean[][] wallMAP;
 	private static boolean[][] wallMAP2;
 
 	private static byte[][] startPoint;
@@ -99,8 +99,10 @@ public class Maze {
 						wallMAP[x][y] = true;
 						wall_count++;
 					} else if (r >= 255 && g <= 1 && b <= 1) {
+						wallMAP[x][y] = false;
 						startPoint[x][y] = 1;
 					} else if (r <= 1 && g <= 1 && b >= 255) {
+						wallMAP[x][y] = false;
 						goalPoint[x][y] = 1;
 					}
 				}
@@ -213,8 +215,13 @@ public class Maze {
 			read = ImageIO.read(f);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			Maze.width = w;
-			Maze.height = h;
+
+			// フラクタル次元を計算する都合、動的探索のために分割する都合で720にクロップ
+			Maze.width = 2160;
+			Maze.height = 2160;
+
+			// Maze.width = w;
+			// Maze.height = h;
 
 			MAP = new MazeNode[width][height];
 			searchMAP = new boolean[width][height];

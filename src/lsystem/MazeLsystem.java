@@ -2,32 +2,31 @@ package lsystem;
 
 import java.awt.Point;
 
-import maze_with_Lsystem.Main_Maze;
-// Main_Mazeに依存しちゃあかんやろ
 import maze_with_Lsystem.Maze;
-import serachItem.Cell;
-// Cellをimportする？
-// 引数を持たないコンストラクタを定義すればよくない？
 import serachItem.MazeNode;
+
+import maze_with_Lsystem.Main_Maze;
+import serachItem.Cell;
 
 public class MazeLsystem extends Lsystem {
 
-	public int max_node_count;
 	// ノードの数
+	public int max_node_count;
+	// ノードを中心とする視野
+	// 視野内で未探索の方向に指向性を持つ
 	public int sight;
-	// ノードを中心とする視野？
 
+	// 分岐の比率
 	private double pa_rate;
 	private double pb_rate;
 	private double pc_rate;
-	// 分岐確率
 
+	// 分岐確率
 	private double pd;
 	private double pa;
 	private double pb;
 	private double pc;
 	private double P;
-	// 分岐確率
 
 	public static int debug_state_0 = 0;
 	public static int debug_state_1 = 0;
@@ -53,6 +52,7 @@ public class MazeLsystem extends Lsystem {
 
 	private static double deleteTime;
 	private static boolean isChangeRate;
+	private boolean calc_fractalDim = false;
 
 	public MazeLsystem(int max_node_count, int sight) {
 		this.sight = sight;
@@ -62,12 +62,13 @@ public class MazeLsystem extends Lsystem {
 		this.pc_rate = -1;
 	}
 
-	public MazeLsystem(int max_node_count, int sight, int pa, int pb, int pc) {
+	public MazeLsystem(int max_node_count, int sight, int pa, int pb, int pc, boolean calc_fD) {
 		this.sight = sight;
 		this.max_node_count = max_node_count;
 		this.pa_rate = pa;
 		this.pb_rate = pb;
 		this.pc_rate = pc;
+		this.calc_fractalDim = calc_fD;
 	}
 
 	@Override
@@ -86,17 +87,17 @@ public class MazeLsystem extends Lsystem {
 		// 中間地点チェック
 		if (Maze.getCheckPointSetting() && checkCheckPoint(mNode)) {
 			changeRate(mNode);
-
 		}
 
 		// 距離が離れると消える
 		// deleteOutRange(mNode);
 
+		// 中間地点を通過したノード以外の経路を消す
 		deleteNotThroughCheck(mNode);
 
 		// コンストラクタの引数で与えられてない場合（適当に数値入れてる）
 		if (pa_rate == -1 && pb_rate == -1 && pc_rate == -1) {
-			pa_rate = 9;
+			pa_rate = 8;
 			pb_rate = 1;
 			pc_rate = 1;
 		}
@@ -183,7 +184,7 @@ public class MazeLsystem extends Lsystem {
 		int step = Main_Maze.step_num;
 		///////////////// System.out.println("ID, step, nodeX, nodeY, length");
 		String info = "ID" + Main_Maze.ID + "," + step + "," + node.getPoint().x + "," + node.getPoint().y + ","
-				+ node.getLength();
+				+ node.getLength() + ",div_num=" + Main_Maze.div_num;
 		/////////////////// System.out.println(info);
 		Main_Maze.solution_info.add(info);
 		node.endProcess("E");
@@ -549,17 +550,17 @@ public class MazeLsystem extends Lsystem {
 	}
 
 	// paをセット
-	public void setPa(int pa) {
+	public void setPa(double pa) {
 		this.pa_rate = pa;
 	}
 
 	// pbをセット
-	public void setPb(int pb) {
+	public void setPb(double pb) {
 		this.pb_rate = pb;
 	}
 
 	// pcをセット
-	public void setPc(int pc) {
+	public void setPc(double pc) {
 		this.pc_rate = pc;
 	}
 
