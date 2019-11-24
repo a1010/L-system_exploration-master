@@ -217,11 +217,11 @@ public class Maze {
 			int h = read.getHeight();
 
 			// フラクタル次元を計算する都合、動的探索のために分割する都合で720にクロップ
-			Maze.width = 2160;
-			Maze.height = 2160;
+			// Maze.width = 2160;
+			// Maze.height = 2160;
 
-			// Maze.width = w;
-			// Maze.height = h;
+			Maze.width = w;
+			Maze.height = h;
 
 			MAP = new MazeNode[width][height];
 			searchMAP = new boolean[width][height];

@@ -13,7 +13,7 @@ public class Simulator2D extends PApplet {
 	private static ArrayList<Point> drawBuffer = new ArrayList<Point>();
 	private static boolean update_flag = false;
 
-	public static boolean draw_searchMAP = false;
+	public static boolean draw_searchMAP = true;
 
 	public static boolean finish = false;
 
@@ -179,6 +179,7 @@ public class Simulator2D extends PApplet {
 			}
 		}
 		stroke(0, 255, 0);// セルの移動描画
+		strokeWeight(3);
 
 		for (Point p : drawArray) {
 			point(p.x, p.y);

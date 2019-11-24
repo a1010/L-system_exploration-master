@@ -7,7 +7,7 @@ calc_fractalDimension : true
 //フレームレート
 frame_rate : 20
 //最大ノード数
-max_node_size : 50000
+max_node_size : 100000
 //視野
 sight : 10
 //ログファイルの出力
@@ -15,7 +15,7 @@ logFile : false
 //ゴールの個数
 goal_num : 1
 //探索打ち切りステップ数
-close_step : 100000
+close_step : 250000
 //迷路ファイル(餌の位置を設定してるだけ。)
 maze_file : ../FLSpy/images/34.714,137.414_drive_2_2160x2160.png
 //maze_file : ./resources/Maze2_2.png
@@ -25,7 +25,7 @@ maze_file : ../FLSpy/images/34.714,137.414_drive_2_2160x2160.png
 //詳細迷路ファイル（MAP内の高低差（迷路）を記述）
 maze_file_detail : ./resources/meiro.csv
 //結果保存フォルダ
-img_dir : ./result/div_theo
+img_dir : ./result/div_theo/
 //分岐確率
 pa : 10
 pb : 30
@@ -36,5 +36,3 @@ start_point_y : 20
 //動的探索のための縦横分割数（div_num<2:分割しない）
 //div_num = 2 : 縦横2分割 = 画像を4分割
 div_num : 12
-//シミュレーション繰り返し回数
-sim_num : 2
