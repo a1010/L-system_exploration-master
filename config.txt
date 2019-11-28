@@ -35,4 +35,4 @@ start_point_x : 20
 start_point_y : 20
 //動的探索のための縦横分割数（div_num<2:分割しない）
 //div_num = 2 : 縦横2分割 = 画像を4分割
-div_num : 12
+div_num : 4

@@ -32,9 +32,11 @@ import fractal.CalcFractalDimension;
 import lsystem.MazeLsystem;
 import serachItem.MazeNode;
 
+@SuppressWarnings("serial")
 public class Main_Maze extends JFrame implements MouseListener {
 
-	private static Maze sp;
+	private Maze sp;
+
 	private ArrayList<MazeNode> rootNode;
 	private MazeLsystem lsys;
 	private ArrayDeque<MazeNode> nodes;
@@ -56,7 +58,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 	private int frame_rate;
 	private boolean drawing;
 	private String result_dir;
-	private boolean calc_fractalDimension;
+	private static boolean calc_fractalDimension;
 	private static double[][] fractalSETs;
 	public static int div_num = 1;
 	public static int div_size = 240;
@@ -78,9 +80,10 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 	static Select s;
 
-	public Main_Maze(MazeNode startNode, int max_node_count, int sight, boolean log, int goal_num, int close_step,
-			int frame_rate, boolean drawing, boolean calc_fractalDimension, String result_dir, int pa, int pb, int pc) {
+	public Main_Maze(Maze sp, MazeNode startNode, int max_node_count, int sight, boolean log, int goal_num,
+			int close_step, int frame_rate, boolean drawing, String result_dir, int pa, int pb, int pc) {
 
+		this.sp = sp;
 		outputLogFile = log;
 		ID = System.currentTimeMillis();
 		this.goal_num = goal_num;
@@ -88,7 +91,6 @@ public class Main_Maze extends JFrame implements MouseListener {
 		this.frame_rate = frame_rate;
 		this.drawing = drawing;
 		this.result_dir = result_dir;
-		this.calc_fractalDimension = calc_fractalDimension;
 		Main_Maze.max_node_count = max_node_count;
 		this.sight = sight;
 		lsys = new MazeLsystem(max_node_count, sight, pa, pb, pc, calc_fractalDimension);
@@ -108,7 +110,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 		drawPointQueue = new ArrayList<Point>();
 
-		Maze.setNode(startNode.getPoint().x, startNode.getPoint().y, startNode);
+		sp.setNode(startNode.getPoint().x, startNode.getPoint().y, startNode);
 
 	}
 
@@ -120,8 +122,8 @@ public class Main_Maze extends JFrame implements MouseListener {
 			String data = "";
 
 			if (outputLogFile) {
-				outFile = new FileWriter("log_MaxNodes=" + max_node_count + "_sight=" + sight + "_" + Maze.width + "x"
-						+ Maze.height + "_" + System.currentTimeMillis() + ".csv");
+				outFile = new FileWriter("log_MaxNodes=" + max_node_count + "_sight=" + sight + "_" + sp.width + "x"
+						+ sp.height + "_" + System.currentTimeMillis() + ".csv");
 				outBuffer = new BufferedWriter(outFile);
 				outBuffer.write("step" + "," + "node" + "," + "sig" + "," + "state_0" + "," + "state_1" + ","
 						+ "state_2" + "," + "state_3" + "," + "state_d" + "," + "tate_D" + "," + "DEAD" + ","
@@ -154,14 +156,14 @@ public class Main_Maze extends JFrame implements MouseListener {
 				}
 				try {
 					if (outputLogFile) {
-						double sig = sigmoid((double) Maze.getNodeCount() / (double) max_node_count, 4);
-						data = step_num + "," + Maze.getNodeCount() + "," + sig + "," + MazeLsystem.debug_apply_0 + ","
+						double sig = sigmoid((double) sp.getNodeCount() / (double) max_node_count, 4);
+						data = step_num + "," + sp.getNodeCount() + "," + sig + "," + MazeLsystem.debug_apply_0 + ","
 								+ MazeLsystem.debug_apply_1 + "," + MazeLsystem.debug_apply_2 + ","
 								+ MazeLsystem.debug_apply_3 + "," + MazeLsystem.debug_apply_d + ","
 								+ MazeLsystem.debug_apply_D + "," + MazeLsystem.debug_dead_count + ","
-								+ (double) Maze.getSearchMAPTrue() + ","
-								+ (double) Maze.getNodeCount() / (double) max_node_count + ","
-								+ (double) Maze.getSearchMAPTrue() / (double) Maze.getTotalCell() + "\n";
+								+ (double) sp.getSearchMAPTrue() + ","
+								+ (double) sp.getNodeCount() / (double) max_node_count + ","
+								+ (double) sp.getSearchMAPTrue() / (double) sp.getTotalCell() + "\n";
 						outBuffer.write(data);
 					}
 					MazeLsystem.reset_debug_num();
@@ -186,7 +188,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 		if (drawing == false) {
 			try {
-				PApplet.main(new String[] { "--location=100,100", "maze_with_Lsystem.Simulator2D" });
+				Simulator2D.main(new String[] { "--location=100,100", "maze_with_Lsystem.Simulator2D" });
 				Simulator2D.draw_searchMAP = false;
 				drawStep2D();
 				Thread.sleep(300);
@@ -394,7 +396,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 		// 結果保存フォルダ
 		String result_dir = "./result/div_theo/";
 		// フラクタル次元の計算
-		boolean calc_fractalDimension = false;
+		calc_fractalDimension = false;
 		// 分岐確率(整数)
 		int pa = 5;
 		int pb = 1;
@@ -404,7 +406,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 		int start_point_y = 20;
 		// 動的探索のための縦横分割数（div_num<2:分割しない）
 		// div_num = 2 : 画像を4分割
-		int div_num = 1;
+		div_num = 1;
 
 		// コンフィグファイルから設定を読み込む
 		String file_name = "./config.txt";
@@ -476,7 +478,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 						start_point_y = Integer.valueOf(val);
 						break;
 					case "div_num":
-						Main_Maze.div_num = Integer.valueOf(val);
+						div_num = Integer.valueOf(val);
 					default:
 						break;
 					}
@@ -516,7 +518,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 		// Point goalPoint = new Point(4295, 3575);
 
 		// ただの壁あり
-		sp = new Maze(maze_file, startPoint, goalPoint, 6);
+		Maze sp = new Maze(maze_file, startPoint, goalPoint, 6);
 		// 中間地点あり
 		// Maze sp = new Maze(maze_file, startPoint, goalPoint, checkPoint, 6);
 		// 山あり
@@ -532,23 +534,23 @@ public class Main_Maze extends JFrame implements MouseListener {
 		System.out.println("fd = " + fd);
 
 		// 画像をdiv_num x div_numに分割してフラクタル次元をそれぞれ求める
-		Main_Maze.fractalSETs = new double[Main_Maze.div_num][Main_Maze.div_num];
+		fractalSETs = new double[div_num][div_num];
 		if (calc_fractalDimension) {
-			if (Main_Maze.div_num > 1) {
+			if (div_num > 1) {
 				// 画像サイズからdiv_sizeを計算して、各エリアごとのフラクタル次元を計算する
-				Main_Maze.div_size = Maze.width / Main_Maze.div_num;
-				boolean[][] dArea = new boolean[Main_Maze.div_size][Main_Maze.div_size];
-				for (int Ay = 0; Ay < Main_Maze.div_num; Ay++) {
-					for (int Ax = 0; Ax < Main_Maze.div_num; Ax++) {
+				div_size = sp.width / div_num;
+				boolean[][] dArea = new boolean[div_size][div_size];
+				for (int Ay = 0; Ay < div_num; Ay++) {
+					for (int Ax = 0; Ax < div_num; Ax++) {
 						// wallMAPからdAriaにコピー
-						for (int dx = 0; dx < Main_Maze.div_size; dx++) {
-							dArea[dx] = Arrays.copyOfRange(Maze.wallMAP[Ax * Main_Maze.div_size + dx],
-									Ay * Main_Maze.div_size, (Ay + 1) * Main_Maze.div_size);
+						for (int dx = 0; dx < div_size; dx++) {
+							dArea[dx] = Arrays.copyOfRange(sp.wallMAP[Ax * div_size + dx], Ay * div_size,
+									(Ay + 1) * div_size);
 						}
 						CalcFractalDimension cf = new CalcFractalDimension(dArea, "./result/fractalDimension");
 						cf.run();
-						Main_Maze.fractalSETs[Ax][Ay] = cf.get_fractalDimension();
-						System.out.println("(" + Ax + "," + Ay + ") = " + Main_Maze.fractalSETs[Ax][Ay]);
+						fractalSETs[Ax][Ay] = cf.get_fractalDimension();
+						System.out.println("(" + Ax + "," + Ay + ") = " + fractalSETs[Ax][Ay]);
 					}
 				}
 			}
@@ -563,17 +565,18 @@ public class Main_Maze extends JFrame implements MouseListener {
 		// 障害物いろいろ
 		// Maze sp = new Maze(maze_file,maze_file_detail);
 		// TODO スタート位置はここで決めてる（変えるべき）
-		MazeNode node = new MazeNode("0", "2", null, startPoint, 0);
+		MazeNode node = new MazeNode(sp, "0", "2", null, startPoint, 0);
 		// MazeNode node = new MazeNode("0", "2", null, new
 		// Point(start_point_x,start_point_y),0);
 		// MazeNode node = new MazeNode("0", "2", null, new Point(378,134),0);
 		// MazeNode node = new MazeNode("0", "2", null, new Point(10,200),0);
 		// MazeNode node = new MazeNode("0", "2", null, startPoint, goalPoint., 0);
-		Main_Maze main = new Main_Maze(node, max_node_size, sight, logFile, goal_num, close_step, frame_rate, drawing,
-				calc_fractalDimension, result_dir, pa, pb, pc);
-		// Simulator2D simulator2d = new Simulator2D();
+		Main_Maze main = new Main_Maze(sp, node, max_node_size, sight, logFile, goal_num, close_step, frame_rate,
+				drawing, result_dir, pa, pb, pc);
 		if (drawing == true)
-			PApplet.main(new String[] { "--location=100,100", "maze_with_Lsystem.Simulator2D" });
+			// PApplet.main(new String[] { "--location=100,100",
+			// "maze_with_Lsystem.Simulator2D" });
+			Simulator2D.main(new String[] { "--location=100,100", "maze_with_Lsystem.Simulator2D" }, sp);
 		main.run();
 
 	}

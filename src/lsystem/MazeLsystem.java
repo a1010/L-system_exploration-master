@@ -10,6 +10,9 @@ import serachItem.Cell;
 
 public class MazeLsystem extends Lsystem {
 
+	// Maze
+	private Maze sp;
+
 	// ノードの数
 	public int max_node_count;
 	// ノードを中心とする視野
@@ -54,7 +57,8 @@ public class MazeLsystem extends Lsystem {
 	private static boolean isChangeRate;
 	private boolean calc_fractalDim = false;
 
-	public MazeLsystem(int max_node_count, int sight) {
+	public MazeLsystem(Maze map, int max_node_count, int sight) {
+		this.sp = map;
 		this.sight = sight;
 		this.max_node_count = max_node_count;
 		this.pa_rate = -1;
@@ -104,7 +108,7 @@ public class MazeLsystem extends Lsystem {
 
 		// シグモイド関数
 		// ＿/￣みたいな関数
-		double sig = sigmoid((double) Maze.getNodeCount() / (double) max_node_count, 4);
+		double sig = sigmoid((double) sp.getNodeCount() / (double) max_node_count, 4);
 		P = 1 - sig;
 		pd = sig;
 		pa = P * pa_rate / (pa_rate + pb_rate + pc_rate);
@@ -152,7 +156,7 @@ public class MazeLsystem extends Lsystem {
 	@Override
 	public boolean checkFinish(Cell node) {
 		MazeNode mNode = (MazeNode) node;
-		if (Maze.checkGoalArrival(mNode)) {
+		if (sp.checkGoalArrival(mNode)) {
 			return true;
 		}
 		return false;
@@ -160,8 +164,8 @@ public class MazeLsystem extends Lsystem {
 
 	// ゴール地点から遠いもののノードの状態をEにする
 	public void deleteOutRange(MazeNode node) {
-		double range = Maze.getGoalRange(node);
-		if (range >= Maze.getRangeStartTogoal() + 10) {
+		double range = sp.getGoalRange(node);
+		if (range >= sp.getRangeStartTogoal() + 10) {
 			node.endProcess("D");
 		}
 	}
@@ -169,7 +173,7 @@ public class MazeLsystem extends Lsystem {
 	// 中間地点チェック
 	public boolean checkCheckPoint(Cell node) {
 		MazeNode mNode = (MazeNode) node;
-		if (Maze.checkPointArrival(mNode)) {
+		if (sp.checkPointArrival(mNode)) {
 			mNode.isCheck = true;
 			return true;
 		}
@@ -184,12 +188,11 @@ public class MazeLsystem extends Lsystem {
 		int step = Main_Maze.step_num;
 		///////////////// System.out.println("ID, step, nodeX, nodeY, length");
 		String info = "ID" + Main_Maze.ID + "," + step + "," + node.getPoint().x + "," + node.getPoint().y + ","
-				+ node.getLength() + ",div_num=" + Main_Maze.div_num + ",MaxNodeSize=" + Main_Maze.max_node_count
-				+ ",close_step=" + Main_Maze.step_num;
+				+ node.getLength() + "," + Main_Maze.div_num + "," + max_node_count;
 		/////////////////// System.out.println(info);
 		Main_Maze.solution_info.add(info);
 		node.endProcess("E");
-		Maze.deleteGoal(node.getPoint().x, node.getPoint().y);
+		sp.deleteGoal(node.getPoint().x, node.getPoint().y);
 		//////// System.out.println("aaaaaaa");
 	}
 
@@ -217,7 +220,7 @@ public class MazeLsystem extends Lsystem {
 	public String getDirectionToGoal(MazeNode node) {
 		String direction;
 		Point point = new Point(node.getPoint().x, node.getPoint().y);
-		Point goal = Maze.getGoalPoint();
+		Point goal = sp.getGoalPoint();
 		double ud = point.y - goal.y;
 		double lr = point.x - goal.x;
 		boolean width = false;
@@ -280,8 +283,8 @@ public class MazeLsystem extends Lsystem {
 			String direction = changeDirection(node, "TOP");
 			// String direction = changeDirection(node, getDirectionToGoal(node));
 			Point next_point = changePosition(node, direction);
-			if (next_point.x >= 0 && next_point.y >= 0 && next_point.x < Maze.width && next_point.y < Maze.height) {
-				MazeNode node2 = new MazeNode("1", direction, node, next_point, node.getLength());
+			if (next_point.x >= 0 && next_point.y >= 0 && next_point.x < sp.width && next_point.y < sp.height) {
+				MazeNode node2 = new MazeNode(sp, "1", direction, node, next_point, node.getLength());
 				node.addChild(node2);
 				if (node.isCheck)
 					node2.isCheck = true;
@@ -306,8 +309,8 @@ public class MazeLsystem extends Lsystem {
 			node.setState("3");
 			String direction = changeDirection(node, "TOP");
 			Point next_point = changePosition(node, direction);
-			if (next_point.x >= 0 && next_point.y >= 0 && next_point.x < Maze.width && next_point.y < Maze.height) {
-				MazeNode node2 = new MazeNode("1", direction, node, next_point, node.getLength());
+			if (next_point.x >= 0 && next_point.y >= 0 && next_point.x < sp.width && next_point.y < sp.height) {
+				MazeNode node2 = new MazeNode(sp, "1", direction, node, next_point, node.getLength());
 				node.addChild(node2);
 				if (node.isCheck)
 					node2.isCheck = true;
@@ -345,13 +348,13 @@ public class MazeLsystem extends Lsystem {
 			direction[num[2]] = changeDirection(node, "RIGHT");
 			next_point[num[2]] = changePosition(node, direction[num[2]]);
 			for (int i = 0; i < next_point.length; i++) {
-				if (next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < Maze.width
-						&& next_point[i].y < Maze.height) {
+				if (next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < sp.width
+						&& next_point[i].y < sp.height) {
 					MazeNode node2;
 					if (i == 0)
-						node2 = new MazeNode("1", direction[i], node, next_point[i], node.getLength());
+						node2 = new MazeNode(sp, "1", direction[i], node, next_point[i], node.getLength());
 					else
-						node2 = new MazeNode("1", direction[i], node, next_point[i], node.getLength());
+						node2 = new MazeNode(sp, "1", direction[i], node, next_point[i], node.getLength());
 					node.addChild(node2);
 					if (node.isCheck)
 						node2.isCheck = true;
@@ -369,9 +372,9 @@ public class MazeLsystem extends Lsystem {
 			direction[1] = changeDirection(node, "RIGHT");
 			next_point[1] = changePosition(node, direction[1]);
 			for (int i = 0; i < next_point.length; i++) {
-				if (next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < Maze.width
-						&& next_point[i].y < Maze.height) {
-					MazeNode node2 = new MazeNode("0", direction[i], node, next_point[i], node.getLength());
+				if (next_point[i].x >= 0 && next_point[i].y >= 0 && next_point[i].x < sp.width
+						&& next_point[i].y < sp.height) {
+					MazeNode node2 = new MazeNode(sp, "0", direction[i], node, next_point[i], node.getLength());
 					node.addChild(node2);
 					if (node.isCheck)
 						node2.isCheck = true;
@@ -387,7 +390,7 @@ public class MazeLsystem extends Lsystem {
 	 */
 	private void rule_3(MazeNode node) {
 		debug_apply_3++;
-		double ph = Maze.getArroundSearchResultRate(node.getPoint().x, node.getPoint().y, sight);
+		double ph = sp.getArroundSearchResultRate(node.getPoint().x, node.getPoint().y, sight);
 		double random = Math.random();
 		// 視野0（評価関数無し）の場合
 		if (sight == 0)
@@ -457,7 +460,7 @@ public class MazeLsystem extends Lsystem {
 	 */
 	private void rule_d(MazeNode node) {
 		debug_apply_d++;
-		double ph = Maze.getArroundSearchResultRate(node.getPoint().x, node.getPoint().y, sight);
+		double ph = sp.getArroundSearchResultRate(node.getPoint().x, node.getPoint().y, sight);
 		double random = Math.random();
 		// 視野0（評価関数無し）の場合
 		if (sight == 0)

@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 // import sun.java2d.Surface;
 
+import maze_with_Lsystem.Maze;
+
 @SuppressWarnings("serial")
 public class Simulator2D extends PApplet {
+
+	private static Maze sp;
 
 	private ArrayList<Point> drawArray = new ArrayList<Point>();
 	private static ArrayList<Point> drawBuffer = new ArrayList<Point>();
 	private static boolean update_flag = false;
 
-	public static boolean draw_searchMAP = true;
+	public static boolean draw_searchMAP = false;
 
 	public static boolean finish = false;
 
@@ -21,7 +25,7 @@ public class Simulator2D extends PApplet {
 	private static String filename = "";
 
 	public void settings() {
-		while (Maze.finishSetUp == false) {
+		while (sp.finishSetUp == false) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -40,7 +44,7 @@ public class Simulator2D extends PApplet {
 	}
 
 	public void setup() {
-		size(Maze.width, Maze.height);
+		size(sp.width, sp.height);
 	}
 
 	public void draw() {
@@ -53,9 +57,9 @@ public class Simulator2D extends PApplet {
 		if (draw_searchMAP) {
 			stroke(255, 0, 0);
 			strokeWeight(1);
-			for (int x = 0; x < Maze.width; x++) {
-				for (int y = 0; y < Maze.height; y++) {
-					if (Maze.getSearchResult(x, y) == true) {
+			for (int x = 0; x < sp.width; x++) {
+				for (int y = 0; y < sp.height; y++) {
+					if (sp.getSearchResult(x, y) == true) {
 						point(x, y);
 					}
 				}
@@ -68,17 +72,17 @@ public class Simulator2D extends PApplet {
 		point(0, 0);
 
 		// 壁があるときの描画 中間なし
-		if (Maze.getWallSetting() && !Maze.getCheckPointSetting()) {
-			for (int y = 0; y < Maze.height; y++) {
-				for (int x = 0; x < Maze.width; x++) {
-					if (Maze.getWallPoint(x, y)) {
+		if (sp.getWallSetting() && !Maze.getCheckPointSetting()) {
+			for (int y = 0; y < sp.height; y++) {
+				for (int x = 0; x < sp.width; x++) {
+					if (sp.getWallPoint(x, y)) {
 						stroke(255, 0, 255, 255);
 						// stroke(30,0,0);
 						point(x, y);
-					} else if (Maze.getstartPoint(x, y) != 0) {
+					} else if (sp.getstartPoint(x, y) != 0) {
 						stroke(255, 255, 0);
 						point(x, y);
-					} else if (Maze.getgoalPoint(x, y) != 0) {
+					} else if (sp.getgoalPoint(x, y) != 0) {
 						stroke(255, 255, 255);
 						point(x, y);
 					}
@@ -87,8 +91,8 @@ public class Simulator2D extends PApplet {
 		}
 		// 様々な障害物があるときの描画
 		else if (Maze.getFieldSetting() && !Maze.getCheckPointSetting()) {
-			for (int y = 0; y < Maze.height; y++) {
-				for (int x = 0; x < Maze.width; x++) {
+			for (int y = 0; y < sp.height; y++) {
+				for (int x = 0; x < sp.width; x++) {
 					if (Maze.getFieldHeightStep(x, y) == 100) {
 						stroke(255, 0, 255, 255);
 						point(x, y);
@@ -106,10 +110,10 @@ public class Simulator2D extends PApplet {
 						stroke(255, 0, 255, 255);
 						Maze.setFieldHeightStep(x, y, 100);
 						point(x, y);
-					} else if (Maze.getstartPoint(x, y) != 0) {
+					} else if (sp.getstartPoint(x, y) != 0) {
 						stroke(255, 255, 0);
 						point(x, y);
-					} else if (Maze.getgoalPoint(x, y) != 0) {
+					} else if (sp.getgoalPoint(x, y) != 0) {
 						stroke(255, 255, 255);
 						point(x, y);
 					}
@@ -123,21 +127,21 @@ public class Simulator2D extends PApplet {
 			}
 		}
 		// 壁がある時の描画 中間あり
-		else if (Maze.getWallSetting() && Maze.getCheckPointSetting()) {
-			for (int y = 0; y < Maze.height; y++) {
-				for (int x = 0; x < Maze.width; x++) {
+		else if (sp.getWallSetting() && Maze.getCheckPointSetting()) {
+			for (int y = 0; y < sp.height; y++) {
+				for (int x = 0; x < sp.width; x++) {
 
-					if (Maze.getWallPoint(x, y)) {
+					if (sp.getWallPoint(x, y)) {
 						stroke(255, 0, 255, 255);
 						// stroke(30,0,0);
 						point(x, y);
-					} else if (Maze.getstartPoint(x, y) != 0) {
+					} else if (sp.getstartPoint(x, y) != 0) {
 						stroke(255, 255, 0);
 						point(x, y);
-					} else if (Maze.getgoalPoint(x, y) != 0) {
+					} else if (sp.getgoalPoint(x, y) != 0) {
 						stroke(255, 255, 255);
 						point(x, y);
-					} else if (Maze.getCheckPoint(x, y) != 0) {
+					} else if (sp.getCheckPoint(x, y) != 0) {
 						stroke(0, 255, 255);
 						point(x, y);
 					}
@@ -146,8 +150,8 @@ public class Simulator2D extends PApplet {
 		}
 		// 山、中間あり
 		else if (Maze.getFieldSetting() && Maze.getCheckPointSetting()) {
-			for (int y = 0; y < Maze.height; y++) {
-				for (int x = 0; x < Maze.width; x++) {
+			for (int y = 0; y < sp.height; y++) {
+				for (int x = 0; x < sp.width; x++) {
 					if (Maze.getFieldHeightStep(x, y) == 100) {
 						stroke(30, 0, 0);
 						point(x, y);
@@ -165,13 +169,13 @@ public class Simulator2D extends PApplet {
 						stroke(255, 0, 255, 255);
 						Maze.setFieldHeightStep(x, y, 100);
 						point(x, y);
-					} else if (Maze.getstartPoint(x, y) != 0) {
+					} else if (sp.getstartPoint(x, y) != 0) {
 						stroke(100, 0, 0);
 						point(x, y);
-					} else if (Maze.getgoalPoint(x, y) != 0) {
+					} else if (sp.getgoalPoint(x, y) != 0) {
 						stroke(0, 0, 20);
 						point(x, y);
-					} else if (Maze.getCheckPoint(x, y) != 0) {
+					} else if (sp.getCheckPoint(x, y) != 0) {
 						stroke(50, 50, 0);
 						point(x, y);
 					}
@@ -179,7 +183,7 @@ public class Simulator2D extends PApplet {
 			}
 		}
 		stroke(0, 255, 0);// セルの移動描画
-		strokeWeight(3);
+		strokeWeight(5);
 
 		for (Point p : drawArray) {
 			point(p.x, p.y);
@@ -229,12 +233,10 @@ public class Simulator2D extends PApplet {
 		}
 	}
 
-	public static void main(String args[]) {
-		// PApplet.main(new String[] {
-		// "--location=100,100","maze_with_Lsystem.Simulator2D"});
-		Simulator2D testSimulator2d = new Simulator2D();
-		testSimulator2d.runSketch(new String[] { "--location=100,100" });
-		// PApplet.main(new String[] {
-		// "--location=100,100","maze_with_Lsystem.Simulator2D"});
+	public static void main(String args[], Maze sp) {
+		Simulator2D.sp = sp;
+		PApplet.main(args);
+		// Simulator2D testSimulator2d = new Simulator2D();
+		// testSimulator2d.runSketch(new String[] { "--location=100,100" });
 	}
 }

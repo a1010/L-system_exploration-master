@@ -8,6 +8,7 @@ import maze_with_Lsystem.Maze;
 
 public class MazeNode extends Cell {
 
+	public Maze sp;
 	private MazeNode parent;
 	private ArrayList<MazeNode> children;
 	private MazeNode next_parent;
@@ -34,14 +35,16 @@ public class MazeNode extends Cell {
 	public boolean isCheck = false;
 
 	/**
+	 * @param sp        対応するMaze
 	 * @param state
 	 * @param board
 	 * @param direction
 	 * @param parent    parentがnullの場合はルートノード
 	 * 
 	 */
-	public MazeNode(String state, String direction, MazeNode parent, Point point, int length) {
+	public MazeNode(Maze sp, String state, String direction, MazeNode parent, Point point, int length) {
 		super();
+		this.sp = sp;
 		this.state = state;
 		children = new ArrayList<MazeNode>();
 		next_parent = parent;
@@ -56,8 +59,10 @@ public class MazeNode extends Cell {
 	}
 
 	// コンストラクタ
-	public MazeNode(String state, String direction, MazeNode parent, Point startPoint, Point goalPoint, int length) {
+	public MazeNode(Maze sp, String state, String direction, MazeNode parent, Point startPoint, Point goalPoint,
+			int length) {
 		super();
+		this.sp = sp;
 		this.state = state;
 		children = new ArrayList<MazeNode>();
 		next_parent = parent;
@@ -157,7 +162,7 @@ public class MazeNode extends Cell {
 				child.parent = null;
 			}
 			// TODO 怪しい
-			Maze.setNode(point.x, point.y, null);
+			sp.setNode(point.x, point.y, null);
 			parent = null;
 			children.clear();
 			next_children.clear();
@@ -174,8 +179,8 @@ public class MazeNode extends Cell {
 	 * @return
 	 */
 	private boolean hazard_check(int wall_height_x, int wall_height_y) {
-		if (Maze.getWallSetting()) {
-			if (Maze.getWallPoint(wall_height_x, wall_height_y) == false)
+		if (sp.getWallSetting()) {
+			if (sp.getWallPoint(wall_height_x, wall_height_y) == false)
 				return true;
 			else
 				return false;
@@ -207,10 +212,10 @@ public class MazeNode extends Cell {
 			state = next_state;
 			for (MazeNode node : next_children) {
 				Point cPoint = node.point;
-				if (Maze.getNode(cPoint.x, cPoint.y) == null) {
+				if (sp.getNode(cPoint.x, cPoint.y) == null) {
 					if (hazard_check(cPoint.x, cPoint.y)) {
 						children.add(node);
-						Maze.setNode(cPoint.x, cPoint.y, node);
+						sp.setNode(cPoint.x, cPoint.y, node);
 					}
 				}
 

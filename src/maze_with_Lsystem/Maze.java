@@ -15,34 +15,34 @@ import javax.imageio.ImageIO;
 import serachItem.MazeNode;
 
 public class Maze {
-	public static int width;
-	public static int height;
-	public static ArrayList<Point> goal = new ArrayList<Point>();
-	public static boolean finishSetUp;
+	public int width;
+	public int height;
+	public ArrayList<Point> goal = new ArrayList<Point>();
+	public boolean finishSetUp;
 
-	private static MazeNode[][] MAP;
-	private static boolean[][] searchMAP;
-	public static boolean[][] wallMAP;
+	private MazeNode[][] MAP;
+	private boolean[][] searchMAP;
+	public boolean[][] wallMAP;
 	private static boolean[][] wallMAP2;
 
-	private static byte[][] startPoint;
-	private static byte[][] goalPoint;
-	private static byte[][] checkPoint;
+	private byte[][] startPoint;
+	private byte[][] goalPoint;
+	private byte[][] checkPoint;
 	private static int[][] Field;
 
-	private static boolean wall_setting;
+	private boolean wall_setting;
 	private static boolean field_setting;
 	private static boolean checkPoint_setting;
 
-	private static int searchCount;
-	private static int node_count;
-	private static int wall_count;
+	private int searchCount;
+	private int node_count;
+	private int wall_count;
 	private static int max_height_step;
 	private static int min_height_step;
-	private static int max_node_count;
+	private int max_node_count;
 
-	private static Point point_start;
-	private static Point point_goal;
+	private Point point_start;
+	private Point point_goal;
 	private static Point point_check;
 
 	// 中間地点を通過したかどうか
@@ -51,12 +51,12 @@ public class Maze {
 	public Maze(int width, int height, Point goal) {
 		init();
 
-		Maze.width = width;
-		Maze.height = height;
-		Maze.goal.add(goal);
+		this.width = width;
+		this.height = height;
+		this.goal.add(goal);
 		MAP = new MazeNode[width][height];
 		searchMAP = new boolean[width][height];
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
 	/**
@@ -74,8 +74,8 @@ public class Maze {
 			read = ImageIO.read(f);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			searchMAP = new boolean[width][height];
@@ -110,7 +110,7 @@ public class Maze {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
 	/***
@@ -123,7 +123,7 @@ public class Maze {
 		init();
 
 		field_setting = true;
-		// wall_settingはfalseで
+		// wall_settingはfalseにする（壁なし）
 		// wall_setting = true;
 		try {
 
@@ -133,8 +133,8 @@ public class Maze {
 			read = ImageIO.read(f);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			Field = new int[width][height];
@@ -197,7 +197,7 @@ public class Maze {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
 	/**
@@ -216,12 +216,8 @@ public class Maze {
 			int w = read.getWidth();
 			int h = read.getHeight();
 
-			// フラクタル次元を計算する都合、動的探索のために分割する都合で720にクロップ
-			// Maze.width = 2160;
-			// Maze.height = 2160;
-
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			searchMAP = new boolean[width][height];
@@ -325,7 +321,7 @@ public class Maze {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
 	/**
@@ -344,8 +340,8 @@ public class Maze {
 			read = ImageIO.read(f);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			Field = new int[width][height];
@@ -431,7 +427,7 @@ public class Maze {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
 	/**
@@ -450,8 +446,8 @@ public class Maze {
 			read = ImageIO.read(f);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			searchMAP = new boolean[width][height];
@@ -518,7 +514,7 @@ public class Maze {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
 	/**
@@ -538,8 +534,8 @@ public class Maze {
 			read = ImageIO.read(f);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			Field = new int[width][height];
@@ -637,10 +633,10 @@ public class Maze {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Maze.finishSetUp = true;
+		finishSetUp = true;
 	}
 
-	private static void init() {
+	private void init() {
 		searchCount = 0;
 		node_count = 0;
 		wall_count = 0;
@@ -652,7 +648,7 @@ public class Maze {
 		finishSetUp = false;
 	}
 
-	public static void setNode(int x, int y, MazeNode node) {
+	public void setNode(int x, int y, MazeNode node) {
 		if (node != null) {
 			node_count++;
 			MAP[x][y] = node;
@@ -668,7 +664,7 @@ public class Maze {
 			max_node_count = node_count;
 	}
 
-	public static MazeNode getNode(int x, int y) {
+	public MazeNode getNode(int x, int y) {
 		return MAP[x][y];
 	}
 
@@ -677,11 +673,11 @@ public class Maze {
 	 * 
 	 * @return
 	 */
-	public static int getNodeCount() {
+	public int getNodeCount() {
 		return node_count;
 	}
 
-	public static int getMaxNodeCount() {
+	public int getMaxNodeCount() {
 		return max_node_count;
 	}
 
@@ -697,44 +693,44 @@ public class Maze {
 		return min_height_step;
 	}
 
-	public static boolean getSearchResult(int x, int y) {
+	public boolean getSearchResult(int x, int y) {
 		return searchMAP[x][y];
 	}
 
-	public static boolean getWallPoint(int x, int y) {
+	public boolean getWallPoint(int x, int y) {
 		if (wall_setting) {
 			return wallMAP[x][y];
 		} else
 			return false;
 	}
 
-	public static byte getstartPoint(int x, int y) {
+	public byte getstartPoint(int x, int y) {
 		if (wall_setting || field_setting) {
 			return startPoint[x][y];
 		} else
 			return 0;
 	}
 
-	public static byte getgoalPoint(int x, int y) {
+	public byte getgoalPoint(int x, int y) {
 		if (wall_setting || field_setting) {
 			return goalPoint[x][y];
 		} else
 			return 0;
 	}
 
-	public static byte getCheckPoint(int x, int y) {
+	public byte getCheckPoint(int x, int y) {
 		return checkPoint[x][y];
 	}
 
-	public static Point getStartPoint() {
+	public Point getStartPoint() {
 		return point_start;
 	}
 
-	public static Point getGoalPoint() {
+	public Point getGoalPoint() {
 		return point_goal;
 	}
 
-	public static boolean checkGoalArrival(MazeNode node) {
+	public boolean checkGoalArrival(MazeNode node) {
 		int x = node.getPoint().x;
 		int y = node.getPoint().y;
 		if (getgoalPoint(x, y) == 1)
@@ -744,7 +740,7 @@ public class Maze {
 	}
 
 	// 中間地点チェック
-	public static boolean checkPointArrival(MazeNode node) {
+	public boolean checkPointArrival(MazeNode node) {
 		int x = node.getPoint().x;
 		int y = node.getPoint().y;
 		if (getCheckPoint(x, y) == 1) {
@@ -754,8 +750,8 @@ public class Maze {
 			return false;
 	}
 
-	public static double getGoalRange(MazeNode node) {
-		Point goalPoint = Maze.getGoalPoint();
+	public double getGoalRange(MazeNode node) {
+		Point goalPoint = getGoalPoint();
 		double a = Math.abs(node.getPoint().x - goalPoint.x);
 		double b = Math.abs(node.getPoint().y - goalPoint.y);
 		double range = Math.sqrt(a * a + b * b);
@@ -763,9 +759,9 @@ public class Maze {
 		return range;
 	}
 
-	public static double getRangeStartTogoal() {
-		Point startPoint = Maze.getStartPoint();
-		Point goalPoint = Maze.getGoalPoint();
+	public double getRangeStartTogoal() {
+		Point startPoint = getStartPoint();
+		Point goalPoint = getGoalPoint();
 		double a = Math.abs(startPoint.x - goalPoint.x);
 		double b = Math.abs(startPoint.y - goalPoint.y);
 		double range = Math.sqrt(a * a + b * b);
@@ -785,7 +781,7 @@ public class Maze {
 	/**
 	 * 到達したゴールに隣接するゴール地点の削除
 	 */
-	public static void deleteGoal(int x, int y) {
+	public void deleteGoal(int x, int y) {
 		ArrayDeque<Point> next = new ArrayDeque<>();
 		next.add(new Point(x, y));
 		while (!next.isEmpty()) {
@@ -809,11 +805,11 @@ public class Maze {
 
 	}
 
-	public static int getSearchCount() {
+	public int getSearchCount() {
 		return searchCount;
 	}
 
-	public static boolean getWallSetting() {
+	public boolean getWallSetting() {
 		return wall_setting;
 	}
 
@@ -825,7 +821,7 @@ public class Maze {
 		return checkPoint_setting;
 	}
 
-	public static int getSearchMAPTrue() {
+	public int getSearchMAPTrue() {
 		int cnt = 0;
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
@@ -836,7 +832,7 @@ public class Maze {
 		return cnt;
 	}
 
-	public static int getTotalCell() {
+	public int getTotalCell() {
 		return width * height - wall_count;
 	}
 
@@ -848,7 +844,7 @@ public class Maze {
 	 * @param radius
 	 * @return
 	 */
-	public static double getArroundSearchResultRate(int x, int y, int radius) {
+	public double getArroundSearchResultRate(int x, int y, int radius) {
 		int total = 0;
 		int count = 0;
 		int x_min = x - radius;
@@ -891,7 +887,7 @@ public class Maze {
 	 * @param radius
 	 * @return
 	 */
-	public static double getArroundNodeRate(int x, int y, int radius) {
+	public double getArroundNodeRate(int x, int y, int radius) {
 		int total = 0;
 		int count = 0;
 		int x_min = x - radius;
