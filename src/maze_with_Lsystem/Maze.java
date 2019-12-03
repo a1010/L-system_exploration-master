@@ -17,7 +17,7 @@ import serachItem.MazeNode;
 public class Maze {
 	public static int width;
 	public static int height;
-	public static ArrayList<Point> goal = new ArrayList<Point>();
+	public static ArrayList<Point> goal;
 	public static boolean finishSetUp;
 
 	private static MazeNode[][] MAP;
@@ -30,6 +30,8 @@ public class Maze {
 	private static byte[][] checkPoint;
 	private static int[][] Field;
 
+	// init()で初期化
+	// ---------------------------------------
 	private static boolean wall_setting;
 	private static boolean field_setting;
 	private static boolean checkPoint_setting;
@@ -40,6 +42,7 @@ public class Maze {
 	private static int max_height_step;
 	private static int min_height_step;
 	private static int max_node_count;
+	// ----------------------------------------
 
 	private static Point point_start;
 	private static Point point_goal;
@@ -220,8 +223,8 @@ public class Maze {
 			// Maze.width = 2160;
 			// Maze.height = 2160;
 
-			Maze.width = w;
-			Maze.height = h;
+			width = w;
+			height = h;
 
 			MAP = new MazeNode[width][height];
 			searchMAP = new boolean[width][height];
@@ -948,6 +951,20 @@ public class Maze {
 
 	public static int argb(int a, int r, int g, int b) {
 		return a << 24 | r << 16 | g << 8 | b;
+	}
+
+	// シミュレーション繰り返し用即席テキトウ初期化関数
+	public static void clear() {
+		init();
+		goal = new ArrayList<Point>();
+		finishSetUp = false;
+
+		MAP = new MazeNode[width][height];
+		searchMAP = new boolean[width][height];
+		wallMAP = new boolean[width][height];
+		startPoint = new byte[width][height];
+		goalPoint = new byte[width][height];
+		checkPoint = new byte[width][height];
 	}
 
 	public static void main(String args[]) {

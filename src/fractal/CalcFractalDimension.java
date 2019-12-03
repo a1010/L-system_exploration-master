@@ -225,13 +225,14 @@ public class CalcFractalDimension {
 
 			// フラクタル次元とともに画像ファイルパスを記録
 			if (this.f_in_name == "") {
+				// 入力が画像ファイルじゃない場合
 				outBuffer.write(this.fractalDimension + "\n");
 			} else {
-				// 入力が画像ファイルじゃない場合
 				outBuffer.write(this.fractalDimension + "," + f_in_name + "\n");
 			}
 			outBuffer.flush();
 			outBuffer.close();
+			outFile.close();
 			// System.out.println("書き出し完了");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -255,6 +256,7 @@ public class CalcFractalDimension {
 
 			outBuffer.flush();
 			outBuffer.close();
+			outFile.close();
 			System.out.println("書き出し完了");
 		} catch (Exception e) {
 			e.printStackTrace();

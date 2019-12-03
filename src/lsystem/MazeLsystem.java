@@ -183,9 +183,8 @@ public class MazeLsystem extends Lsystem {
 	public void finish(MazeNode node) {
 		int step = Main_Maze.step_num;
 		///////////////// System.out.println("ID, step, nodeX, nodeY, length");
-		String info = "ID" + Main_Maze.ID + "," + step + "," + node.getPoint().x + "," + node.getPoint().y + ","
-				+ node.getLength() + ",div_num=" + Main_Maze.div_num + ",MaxNodeSize=" + Main_Maze.max_node_count
-				+ ",close_step=" + Main_Maze.step_num;
+		String info = "ID" + Main_Maze.ID + "," + Main_Maze.div_num + "," + Main_Maze.sig_bias + "," + step + ","
+				+ node.getLength() + "," + Maze.getSearchCount();
 		/////////////////// System.out.println(info);
 		Main_Maze.solution_info.add(info);
 		node.endProcess("E");

@@ -13,7 +13,7 @@ public class Simulator2D extends PApplet {
 	private static ArrayList<Point> drawBuffer = new ArrayList<Point>();
 	private static boolean update_flag = false;
 
-	public static boolean draw_searchMAP = true;
+	public static boolean draw_searchMAP = false;
 
 	public static boolean finish = false;
 
@@ -28,14 +28,7 @@ public class Simulator2D extends PApplet {
 				e.printStackTrace();
 			}
 		}
-		drawArray = new ArrayList<Point>();
-		drawBuffer = new ArrayList<Point>();
-		update_flag = false;
-
-		finish = false;
-
-		output = false;
-		filename = "";
+		clear();
 
 	}
 
@@ -179,7 +172,7 @@ public class Simulator2D extends PApplet {
 			}
 		}
 		stroke(0, 255, 0);// セルの移動描画
-		strokeWeight(3);
+		strokeWeight(5);
 
 		for (Point p : drawArray) {
 			point(p.x, p.y);
@@ -229,12 +222,21 @@ public class Simulator2D extends PApplet {
 		}
 	}
 
+	public static void clear() {
+		// drawArray = new ArrayList<Point>();
+		drawBuffer = new ArrayList<Point>();
+		update_flag = false;
+
+		finish = false;
+
+		output = false;
+		filename = "";
+	}
+
 	public static void main(String args[]) {
-		// PApplet.main(new String[] {
-		// "--location=100,100","maze_with_Lsystem.Simulator2D"});
-		Simulator2D testSimulator2d = new Simulator2D();
-		testSimulator2d.runSketch(new String[] { "--location=100,100" });
-		// PApplet.main(new String[] {
-		// "--location=100,100","maze_with_Lsystem.Simulator2D"});
+		// Simulator2D.sp = sp;
+		PApplet.main(args);
+		// Simulator2D testSimulator2d = new Simulator2D();
+		// testSimulator2d.runSketch(new String[] { "--location=100,100" });
 	}
 }
