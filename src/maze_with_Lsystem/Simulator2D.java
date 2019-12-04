@@ -171,6 +171,7 @@ public class Simulator2D extends PApplet {
 				}
 			}
 		}
+
 		stroke(0, 255, 0);// セルの移動描画
 		strokeWeight(5);
 

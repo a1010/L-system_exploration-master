@@ -64,7 +64,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 	private static int sim_num = 1;
 	private static int sim_count = 0;
 	public static double sig_bias = 1.58;
-	private static boolean recIMG = false;
+	private static boolean save_resultIMG = false;
 
 	public static int step_num;
 	public static ArrayList<String> solution_info;
@@ -192,7 +192,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 		long time = end_time - start_time;
 		System.out.println("処理時間：" + time / 1000 + "[s]");
 
-		if (recIMG) {
+		if (save_resultIMG) {
 			try {
 				System.out.println("描くよ!");
 				if (sim_count == 0 && div_num == 1)
@@ -451,8 +451,8 @@ public class Main_Maze extends JFrame implements MouseListener {
 					case "drawing":
 						drawing = Boolean.valueOf(val);
 						break;
-					case "recIMG":
-						recIMG = Boolean.valueOf(val);
+					case "save_resultIMG":
+						save_resultIMG = Boolean.valueOf(val);
 					case "draw_searchMAP":
 						Simulator2D.draw_searchMAP = Boolean.valueOf(val);
 						break;
@@ -620,6 +620,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 				Simulator2D.clear();
 			}
 		}
+		System.out.println("おしまい！！");
 	}
 
 	// テスト用
