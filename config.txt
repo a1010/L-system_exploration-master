@@ -29,7 +29,7 @@ maze_file : ../FLSpy/images/34.714,137.414_drive_dpi=200_2160x2160.png
 //詳細迷路ファイル（MAP内の高低差（迷路）を記述）
 maze_file_detail : ./resources/meiro.csv
 //結果保存フォルダ
-img_dir : ./result/div_theo_1203_bias記録画像なし/
+img_dir : ./result/div_theo_1204_fdAVE記録画像なし/
 //分岐確率
 pa : 10
 pb : 30
@@ -41,6 +41,6 @@ start_point_y : 20
 //div_num = 2 : 縦横2分割 = 画像を4分割
 div_num : 1
 //シミュレーション回数
-sim_num : 6
+sim_num : 40
 //シグモイド曲線のバイアスdef:1.58
 sig_bias : 1.58
