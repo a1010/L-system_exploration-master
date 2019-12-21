@@ -90,7 +90,6 @@ public class Main_Maze extends JFrame implements MouseListener {
 		sp = map;
 		outputLogFile = log;
 		ID = System.currentTimeMillis();
-		System.out.println(ID);
 		this.goal_num = goal_num;
 		Main_Maze.close_step = close_step;
 		this.frame_rate = frame_rate;
@@ -522,13 +521,19 @@ public class Main_Maze extends JFrame implements MouseListener {
 			e.printStackTrace();
 		}
 
-		// 即席テキトウループ
+		// ループ
 		System.out.println("-----------------------------------------------");
-		int numbers[] = { 1, 2, 3, 4, 5, 6, 8, 9 };
+		int numbers[] = { 1, 2, 4 };// , 8 };
+		int max_node_size_def = max_node_size;
 		// String result_fold = result_dir;
 		for (int num : numbers) {
 			Main_Maze.div_num = num;
 			// result_dir = result_fold + Integer.toString(num) + "/";
+
+			// max_node変化によるメモリ上限テスト
+			// max_node_size = max_node_size_def;
+			// while (max_node_size > 0) {
+
 			sim_count = 0;
 			while (sim_count < sim_num) {
 				System.out.println("---- シミュレーション " + (sim_count + 1) + " 回目 ----");
@@ -551,27 +556,26 @@ public class Main_Maze extends JFrame implements MouseListener {
 				// 2160
 				Point startPoint = new Point(60, 60);
 				Point goalPoint = new Point(2025, 1727);
+				// Point goalPoint = new Point(2050, 800);
 
 				// 4320
 				// Point startPoint = new Point(67, 400);
 				// Point goalPoint = new Point(4295, 3575);
 
-				System.out.println("start:" + startPoint + "," + "goal" + goalPoint);
+				//
+				// Point startPoint = new Point(1155, 352);
+				// Point goalPoint = new Point(5495, 7232);
+
+				System.out.println("start:" + startPoint + "," + "goal:" + goalPoint);
 
 				// ただの壁あり
 				Maze sp = new Maze(maze_file, startPoint, goalPoint, 6);
 
-				// -------------------------------------------------------
-				// フラクタル次元記録用仮置き
-				CalcFractalDimension cf0 = new CalcFractalDimension(maze_file, result_dir + "fractalDimension");
-				cf0.run();
-				fd = cf0.get_fractalDimension();
-				System.out.println("fd = " + fd);
-				// -------------------------------------------------------
-
 				// 画像をdiv_num x div_numに分割してフラクタル次元をそれぞれ求める
 				// 同時にフラクタル次元の平均値を計算してシグモイド曲線の変曲点を決める
 				double fdSUM = 0.0;
+				double fdAVE = 0.0;
+				int count_void = 0; // 領域内に図形が含まれない場合をカウント
 				// ここまで変曲点導出用変数
 				Main_Maze.fractalSETs = new double[Main_Maze.div_num][Main_Maze.div_num];
 				if (calc_fractalDimension) {
@@ -589,24 +593,32 @@ public class Main_Maze extends JFrame implements MouseListener {
 								CalcFractalDimension cf = new CalcFractalDimension(dArea,
 										result_dir + "fractalDimension");
 								cf.run();
-								Main_Maze.fractalSETs[Ax][Ay] = cf.get_fractalDimension();
+								if (Double.isNaN(cf.get_fractalDimension()) || cf.get_fractalDimension() < 1.1) {
+									Main_Maze.fractalSETs[Ax][Ay] = 1.0;
+									count_void++;
+									System.out.println(count_void);
+								} else {
+									Main_Maze.fractalSETs[Ax][Ay] = cf.get_fractalDimension();
+								}
 								System.out.println("(" + Ax + "," + Ay + ") = " + Main_Maze.fractalSETs[Ax][Ay]);
 								fdSUM += Main_Maze.fractalSETs[Ax][Ay];
 							}
 						}
 						System.out.println(Double.toString(fractalSETs[0].length));
-						double fdAVE = fdSUM / (fractalSETs[0].length * fractalSETs[0].length);
+						fdAVE = fdSUM / (fractalSETs[0].length * fractalSETs[0].length - count_void);
 						Main_Maze.sig_bias = fdAVE;
 					} else {
-						Main_Maze.sig_bias = fd;
-						// CalcFractalDimension cf0 = new CalcFractalDimension(maze_file, result_dir +
-						// "fractalDimension");
-						// cf0.run();
-						// fd = cf0.get_fractalDimension();
-						// System.out.println("fd = " + fd);
+						// 画像を分割しないでフラクタル次元を計算する
+						CalcFractalDimension cf0 = new CalcFractalDimension(maze_file, result_dir + "fractalDimension");
+						cf0.run();
+						fd = cf0.get_fractalDimension();
+						System.out.println("fd: " + fd);
+						// シグモイド曲線バイアス用
+						Main_Maze.sig_bias = 1.58;
 					}
 				}
 				System.out.println("bias: " + Main_Maze.sig_bias);
+				System.out.println("max_node_size: " + max_node_size);
 
 				// TODO スタート位置はここで決めてる（変えるべき）
 				MazeNode node = new MazeNode("0", "2", null, startPoint, 0);
@@ -619,6 +631,10 @@ public class Main_Maze extends JFrame implements MouseListener {
 				sim_count++;
 				Simulator2D.clear();
 			}
+
+			// max_node_size -= 1000;
+			// }
+
 		}
 		System.out.println("おしまい！！");
 	}

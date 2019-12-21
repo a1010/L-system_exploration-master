@@ -38,7 +38,7 @@ public class Simulator2D extends PApplet {
 
 	public void draw() {
 
-		background(0);
+		background(255, 255, 255);
 
 		update();
 
@@ -57,7 +57,7 @@ public class Simulator2D extends PApplet {
 
 		// 原点
 		strokeWeight(1);
-		stroke(0, 255, 0);
+		stroke(0, 0, 0);
 		point(0, 0);
 
 		// 壁があるときの描画 中間なし
@@ -65,14 +65,14 @@ public class Simulator2D extends PApplet {
 			for (int y = 0; y < Maze.height; y++) {
 				for (int x = 0; x < Maze.width; x++) {
 					if (Maze.getWallPoint(x, y)) {
-						stroke(255, 0, 255, 255);
+						stroke(0, 0, 0);
 						// stroke(30,0,0);
 						point(x, y);
 					} else if (Maze.getstartPoint(x, y) != 0) {
 						stroke(255, 255, 0);
 						point(x, y);
 					} else if (Maze.getgoalPoint(x, y) != 0) {
-						stroke(255, 255, 255);
+						stroke(255, 255, 0);
 						point(x, y);
 					}
 				}
@@ -173,7 +173,7 @@ public class Simulator2D extends PApplet {
 		}
 
 		stroke(0, 255, 0);// セルの移動描画
-		strokeWeight(5);
+		strokeWeight(9);
 
 		for (Point p : drawArray) {
 			point(p.x, p.y);

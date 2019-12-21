@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import maze_with_Lsystem.Maze;
 import serachItem.MazeNode;
-
+import sun.security.util.Length;
 import maze_with_Lsystem.Main_Maze;
 import serachItem.Cell;
 
@@ -106,6 +106,7 @@ public class MazeLsystem extends Lsystem {
 		// ＿/￣みたいな関数
 		double sig = sigmoid((double) Maze.getNodeCount() / (double) max_node_count, 4);
 		P = 1 - sig;
+		// System.out.println("P: " + P);
 		pd = sig;
 		pa = P * pa_rate / (pa_rate + pb_rate + pc_rate);
 		pb = P * pb_rate / (pa_rate + pb_rate + pc_rate);
@@ -176,20 +177,28 @@ public class MazeLsystem extends Lsystem {
 		return false;
 	}
 
-	// TODO 機能の見直し by titanis
-	// Main_Mazeに依存したメソッド
-	//
 	// 終了処理(全てのノードの状態を"E"にする)
 	public void finish(MazeNode node) {
-		int step = Main_Maze.step_num;
-		///////////////// System.out.println("ID, step, nodeX, nodeY, length");
-		String info = "ID" + Main_Maze.ID + "," + Main_Maze.div_num + "," + Main_Maze.sig_bias + "," + step + ","
-				+ node.getLength() + "," + Maze.getSearchCount();
-		/////////////////// System.out.println(info);
-		Main_Maze.solution_info.add(info);
+		SaveInfo(node);
 		node.endProcess("E");
 		Maze.deleteGoal(node.getPoint().x, node.getPoint().y);
 		//////// System.out.println("aaaaaaa");
+	}
+
+	// TODO 機能の見直し by titanis
+	// Main_Mazeに依存したメソッド
+	//
+	private void SaveInfo(MazeNode node) {
+		int step = Main_Maze.step_num;
+		long ID = Main_Maze.ID;
+		int DIV = Main_Maze.div_num;
+		double sigB = Main_Maze.sig_bias;
+		int MaxNodeCount = Main_Maze.max_node_count;
+		int Length = node.getLength();
+		int SearchArea = Maze.getSearchCount();
+		String info = "ID" + ID + "," + DIV + "," + sigB + "," + step + "," + Length + "," + SearchArea + ","
+				+ MaxNodeCount;
+		Main_Maze.solution_info.add(info);
 	}
 
 	// 中間地点通過後の処理(粒度を変更する)
