@@ -72,7 +72,7 @@ public class CalcFractalDimension {
 	public void run() {
 		calc();
 		calc_slope();
-		output_slope();
+		// output_slope();
 	}
 
 	/**

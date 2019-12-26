@@ -523,7 +523,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 		// ループ
 		System.out.println("-----------------------------------------------");
-		int numbers[] = { 1, 2, 4 };// , 8 };
+		int numbers[] = { 1, 2, 4, 8 };
 		int max_node_size_def = max_node_size;
 		// String result_fold = result_dir;
 		for (int num : numbers) {
@@ -593,15 +593,16 @@ public class Main_Maze extends JFrame implements MouseListener {
 								CalcFractalDimension cf = new CalcFractalDimension(dArea,
 										result_dir + "fractalDimension");
 								cf.run();
-								if (Double.isNaN(cf.get_fractalDimension()) || cf.get_fractalDimension() < 1.1) {
-									Main_Maze.fractalSETs[Ax][Ay] = 1.0;
+								// フラクタル次元が計算できなかった場合、フラクタル次元が1未満あるいは2を超過する場合
+								if (Double.isNaN(cf.get_fractalDimension()) || cf.get_fractalDimension() < 1) {
+									Main_Maze.fractalSETs[Ax][Ay] = -1.0;
 									count_void++;
 									System.out.println(count_void);
 								} else {
 									Main_Maze.fractalSETs[Ax][Ay] = cf.get_fractalDimension();
+									fdSUM += Main_Maze.fractalSETs[Ax][Ay];
 								}
 								System.out.println("(" + Ax + "," + Ay + ") = " + Main_Maze.fractalSETs[Ax][Ay]);
-								fdSUM += Main_Maze.fractalSETs[Ax][Ay];
 							}
 						}
 						System.out.println(Double.toString(fractalSETs[0].length));

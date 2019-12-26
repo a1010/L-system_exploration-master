@@ -21,7 +21,8 @@ goal_num : 1
 close_step : 50000
 //迷路ファイル(餌の位置を設定してるだけ。)
 //maze_file : ../FLSpy/images/34.714,137.414_drive_dist=5000_10800x10800.png
-maze_file : ../FLSpy/images/34.714,137.414_drive_dpi=200_2160x2160_another.png
+maze_file : ../FLSpy/images/34.714,137.414_drive_dpi=200_2160x2160.png
+//maze_file : ../FLSpy/images/34.714,137.414_drive_dpi=200_2160x2160_another.png
 //maze_file : ../FLSpy/images/34.714,137.414_drive_1_720x720.png
 //maze_file : ./resources/Maze2_2.png
 //maze_file : ./resources/black.png
@@ -30,7 +31,7 @@ maze_file : ../FLSpy/images/34.714,137.414_drive_dpi=200_2160x2160_another.png
 //詳細迷路ファイル（MAP内の高低差（迷路）を記述）
 maze_file_detail : ./resources/meiro.csv
 //結果保存フォルダ
-img_dir : ./result/div_theo_1218_1_bias_158_anoIMG/
+img_dir : ./result/div_theo_1224_1_bias_158_IMG/
 //分岐確率
 pa : 10
 pb : 30
@@ -42,6 +43,6 @@ start_point_y : 20
 //div_num = 2 : 縦横2分割 = 画像を4分割
 div_num : 1
 //シミュレーション回数
-sim_num : 10
+sim_num : 5
 //シグモイド曲線のバイアスdef:1.58
 sig_bias : 1.58
