@@ -7,6 +7,7 @@ import serachItem.MazeNode;
 import sun.security.util.Length;
 import maze_with_Lsystem.Main_Maze;
 import serachItem.Cell;
+import maze_with_Lsystem.Simulator2D;
 
 public class MazeLsystem extends Lsystem {
 
@@ -81,6 +82,10 @@ public class MazeLsystem extends Lsystem {
 			}
 			if (!Maze.getCheckPointSetting()) {
 				finish(mNode);
+				// TODO: ゴール時のフラクタル次元記録用
+				Simulator2D.draw_searchMAP = false;
+				Main_Maze.screenShot(Main_Maze.result_dir + "fractalDim_" + Main_Maze.ID + ".png");
+				Simulator2D.draw_searchMAP = true;
 			}
 		}
 
@@ -114,38 +119,38 @@ public class MazeLsystem extends Lsystem {
 
 		String state = mNode.getState();
 		switch (state) {
-		case "0":
-			rule_0(mNode);
-			debug_state_0++;
-			break;
-		case "1":
-			rule_1(mNode);
-			debug_state_1++;
-			break;
-		case "2":
-			rule_2(mNode);
-			debug_state_2++;
-			break;
-		case "3":
-			rule_3(mNode);
-			debug_state_3++;
-			break;
-		case "E":
-			rule_E(mNode);
-			break;
-		case "I":
-			rule_I(mNode);
-			break;
-		case "D":
-			rule_D(mNode);
-			debug_state_D++;
-			break;
-		case "d":
-			rule_d(mNode);
-			debug_state_d++;
-			break;
-		default:
-			break;
+			case "0":
+				rule_0(mNode);
+				debug_state_0++;
+				break;
+			case "1":
+				rule_1(mNode);
+				debug_state_1++;
+				break;
+			case "2":
+				rule_2(mNode);
+				debug_state_2++;
+				break;
+			case "3":
+				rule_3(mNode);
+				debug_state_3++;
+				break;
+			case "E":
+				rule_E(mNode);
+				break;
+			case "I":
+				rule_I(mNode);
+				break;
+			case "D":
+				rule_D(mNode);
+				debug_state_D++;
+				break;
+			case "d":
+				rule_d(mNode);
+				debug_state_d++;
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -480,49 +485,49 @@ public class MazeLsystem extends Lsystem {
 	public String changeDirection(MazeNode node, String change_type) {
 		String direction = "";
 		switch (node.getDirection()) {
-		case "8":
-			if (change_type.equals("TOP"))
-				direction = "8";
-			else if (change_type.equals("RIGHT"))
-				direction = "6";
-			else if (change_type.equals("LEFT"))
-				direction = "4";
-			else if (change_type.equals("BOTOM"))
-				direction = "2";
-			break;
-		case "6":
-			if (change_type.equals("TOP"))
-				direction = "6";
-			else if (change_type.equals("RIGHT"))
-				direction = "2";
-			else if (change_type.equals("LEFT"))
-				direction = "8";
-			else if (change_type.equals("BOTOM"))
-				direction = "4";
-			break;
-		case "4":
-			if (change_type.equals("TOP"))
-				direction = "4";
-			else if (change_type.equals("RIGHT"))
-				direction = "8";
-			else if (change_type.equals("LEFT"))
-				direction = "2";
-			else if (change_type.equals("BOTOM"))
-				direction = "6";
-			break;
-		case "2":
-			if (change_type.equals("TOP"))
-				direction = "2";
-			else if (change_type.equals("RIGHT"))
-				direction = "4";
-			else if (change_type.equals("LEFT"))
-				direction = "6";
-			else if (change_type.equals("BOTOM"))
-				direction = "8";
-			break;
-		default:
-			System.err.println("direction error");
-			break;
+			case "8":
+				if (change_type.equals("TOP"))
+					direction = "8";
+				else if (change_type.equals("RIGHT"))
+					direction = "6";
+				else if (change_type.equals("LEFT"))
+					direction = "4";
+				else if (change_type.equals("BOTOM"))
+					direction = "2";
+				break;
+			case "6":
+				if (change_type.equals("TOP"))
+					direction = "6";
+				else if (change_type.equals("RIGHT"))
+					direction = "2";
+				else if (change_type.equals("LEFT"))
+					direction = "8";
+				else if (change_type.equals("BOTOM"))
+					direction = "4";
+				break;
+			case "4":
+				if (change_type.equals("TOP"))
+					direction = "4";
+				else if (change_type.equals("RIGHT"))
+					direction = "8";
+				else if (change_type.equals("LEFT"))
+					direction = "2";
+				else if (change_type.equals("BOTOM"))
+					direction = "6";
+				break;
+			case "2":
+				if (change_type.equals("TOP"))
+					direction = "2";
+				else if (change_type.equals("RIGHT"))
+					direction = "4";
+				else if (change_type.equals("LEFT"))
+					direction = "6";
+				else if (change_type.equals("BOTOM"))
+					direction = "8";
+				break;
+			default:
+				System.err.println("direction error");
+				break;
 		}
 		return direction;
 	}
@@ -532,22 +537,22 @@ public class MazeLsystem extends Lsystem {
 		int x = node.getPoint().x;
 		int y = node.getPoint().y;
 		switch (direction) {
-		case "2":
-			next_point = new Point(x, y + 1);
-			break;
-		case "4":
-			next_point = new Point(x - 1, y);
-			break;
-		case "6":
-			next_point = new Point(x + 1, y);
-			break;
-		case "8":
-			next_point = new Point(x, y - 1);
-			break;
-		default:
-			next_point = new Point(x, y);
-			System.err.println("想定外の方向を指定しています\n");
-			break;
+			case "2":
+				next_point = new Point(x, y + 1);
+				break;
+			case "4":
+				next_point = new Point(x - 1, y);
+				break;
+			case "6":
+				next_point = new Point(x + 1, y);
+				break;
+			case "8":
+				next_point = new Point(x, y - 1);
+				break;
+			default:
+				next_point = new Point(x, y);
+				System.err.println("想定外の方向を指定しています\n");
+				break;
 		}
 
 		return next_point;

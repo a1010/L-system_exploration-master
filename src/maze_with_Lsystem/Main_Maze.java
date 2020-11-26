@@ -26,13 +26,16 @@ import javax.swing.JPanel;
 
 import processing.core.PApplet;
 
-import New.DecidePoint;
 import fractal.CalcFractalDimension;
 // import lsystem.Lsystem;
 import lsystem.MazeLsystem;
 import serachItem.MazeNode;
 
 public class Main_Maze extends JFrame implements MouseListener {
+
+	// 描画用
+	private static Simulator2D mainApplet = null;
+	// private static Simulator2D sim2D = null;
 
 	private static Maze sp;
 	private ArrayList<MazeNode> rootNode;
@@ -55,16 +58,17 @@ public class Main_Maze extends JFrame implements MouseListener {
 	public static int close_step;
 	private int frame_rate;
 	private boolean drawing;
-	private String result_dir;
+	public static String result_dir;
 	private boolean calc_fractalDimension;
 	private static double fd; // 画像全体でのフラクタル次元
 	private static double[][] fractalSETs; // 画像を分割した各領域でのフラクタル次元
-	public static int div_num = 1;
-	public static int div_size = 240;
-	private static int sim_num = 1;
-	private static int sim_count = 0;
-	public static double sig_bias = 1.58;
-	private static boolean save_resultIMG = false;
+	public static int div_num;
+	public static int div_size;
+	private static int sim_num;
+	private static int sim_count;
+	public static double sig_bias;
+	private static boolean save_resultIMG;
+	public static boolean fd_manual;
 
 	public static int step_num;
 	public static ArrayList<String> solution_info;
@@ -83,24 +87,26 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 	static Select s;
 
-	public Main_Maze(Maze map, MazeNode startNode, int max_node_count, int sight, boolean log, int goal_num,
-			int close_step, int frame_rate, boolean drawing, boolean calc_fractalDimension, String result_dir, int pa,
-			int pb, int pc) {
+	public Main_Maze(Maze _map, MazeNode _startNode, int _max_node_count, int _sight, boolean _log, int _goal_num,
+			int _close_step, int _frame_rate, boolean _drawing, boolean _calc_fractalDimension, String _result_dir,
+			int _pa, int _pb, int _pc, boolean _fd_manual) {
 
-		sp = map;
-		outputLogFile = log;
+		sp = _map;
+		outputLogFile = _log;
 		ID = System.currentTimeMillis();
-		this.goal_num = goal_num;
-		Main_Maze.close_step = close_step;
-		this.frame_rate = frame_rate;
-		this.drawing = drawing;
-		this.result_dir = result_dir;
-		this.calc_fractalDimension = calc_fractalDimension;
-		Main_Maze.max_node_count = max_node_count;
-		this.sight = sight;
-		lsys = new MazeLsystem(max_node_count, sight, pa, pb, pc, calc_fractalDimension);
+		goal_num = _goal_num;
+		close_step = _close_step;
+		frame_rate = _frame_rate;
+		drawing = _drawing;
+		result_dir = _result_dir;
+		calc_fractalDimension = _calc_fractalDimension;
+		max_node_count = _max_node_count;
+		this.sight = _sight;
+		fd_manual = _fd_manual;
+
+		lsys = new MazeLsystem(_max_node_count, _sight, _pa, _pb, _pc, _calc_fractalDimension);
 		rootNode = new ArrayList<MazeNode>();
-		rootNode.add(startNode);
+		rootNode.add(_startNode);
 
 		roop = true;
 		close = false;
@@ -115,7 +121,7 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 		drawPointQueue = new ArrayList<Point>();
 
-		Maze.setNode(startNode.getPoint().x, startNode.getPoint().y, startNode);
+		Maze.setNode(_startNode.getPoint().x, _startNode.getPoint().y, _startNode);
 
 	}
 
@@ -192,25 +198,18 @@ public class Main_Maze extends JFrame implements MouseListener {
 		System.out.println("処理時間：" + time / 1000 + "[s]");
 
 		if (save_resultIMG) {
-			try {
-				System.out.println("描くよ!");
-				if (sim_count == 0 && div_num == 1)
-					Simulator2D.main(new String[] { "--location=100,100", "maze_with_Lsystem.Simulator2D" });
-				Simulator2D.draw_searchMAP = false;
-				drawStep2D();
-				Thread.sleep(2000);
-				Simulator2D.saveImg(result_dir + ID + "_search=" + Simulator2D.draw_searchMAP + ".png");
-				Thread.sleep(1500);
+			System.out.println("描くよ!");
+			// if (sim_count == 0 && div_num == 1)
+			// mainApplet.runSubWindow(new String[] { "--location=100,100", "SubSketch2D"
+			// });
+			Simulator2D.draw_searchMAP = false;
+			drawStep2D();
+			screenShot(result_dir + ID + "_search=" + Simulator2D.draw_searchMAP + ".png");
 
-				Simulator2D.draw_searchMAP = true;
-				drawStep2D();
-				Thread.sleep(3000);
-				Simulator2D.saveImg(result_dir + ID + "_search=" + Simulator2D.draw_searchMAP + ".png");
-				Thread.sleep(1500);
-				Simulator2D.finish();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Simulator2D.draw_searchMAP = true;
+			drawStep2D();
+			screenShot(result_dir + ID + "_search=" + Simulator2D.draw_searchMAP + ".png");
+			Simulator2D.finish();
 		}
 
 		System.out.println("探索終了");
@@ -233,6 +232,17 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 	}
 
+	public static void screenShot(String fname) {
+		// 描画時間のsleep含む
+		try {
+			Thread.sleep(1500);
+			Simulator2D.saveImg(fname);
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void preStep() {
 		drawPointQueue.clear();
 		if (close) {
@@ -251,7 +261,6 @@ public class Main_Maze extends JFrame implements MouseListener {
 			if (this.calc_fractalDimension) {
 				if (div_num == 1) { // 画像全体で計算したフラクタル次元を使う
 					P = fractalD2proP(fd, sig_bias);
-					// System.out.println("div_size==1");
 					lsys.setPa(P[0]);
 					lsys.setPb(P[1]);
 					lsys.setPc(P[2]);
@@ -262,8 +271,12 @@ public class Main_Maze extends JFrame implements MouseListener {
 					lsys.setPa(P[0]);
 					lsys.setPb(P[1]);
 					lsys.setPc(P[2]);
-					// System.out.println("fd:" + fd + ", " + P[0] + ", " + P[1] + ", " + P[2]);
 				}
+			} else if (fd_manual) {
+				P = fractalD2proP(fd, sig_bias);
+				lsys.setPa(P[0]);
+				lsys.setPb(P[1]);
+				lsys.setPc(P[2]);
 			} else {
 				lsys.setPa(1);
 				lsys.setPb(1);
@@ -428,6 +441,9 @@ public class Main_Maze extends JFrame implements MouseListener {
 		int sim_num = 1;
 		// シグモイドのバイアス(def:1.58)
 		double bias = 1.58;
+		// フラクタル次元の手動指定
+		// -1 で指定しない
+		boolean fd_manual = false;
 
 		// コンフィグファイルから設定を読み込む
 		String file_name = "./config.txt";
@@ -447,67 +463,69 @@ public class Main_Maze extends JFrame implements MouseListener {
 					System.out.printf(var + ":" + val);
 					System.out.println();
 					switch (var) {
-					case "drawing":
-						drawing = Boolean.valueOf(val);
-						break;
-					case "save_resultIMG":
-						save_resultIMG = Boolean.valueOf(val);
-					case "draw_searchMAP":
-						Simulator2D.draw_searchMAP = Boolean.valueOf(val);
-						break;
-					case "calc_fractalDimension":
-						calc_fractalDimension = Boolean.valueOf(val);
-						break;
-					case "frame_rate":
-						frame_rate = Integer.valueOf(val);
-						break;
-					case "max_node_size":
-						max_node_size = Integer.valueOf(val);
-						break;
-					case "sight":
-						sight = Integer.valueOf(val);
-						break;
-					case "logFile":
-						logFile = Boolean.valueOf(val);
-						break;
-					case "goal_num":
-						goal_num = Integer.valueOf(val);
-						break;
-					case "close_step":
-						close_step = Integer.valueOf(val);
-						break;
-					case "maze_file":
-						maze_file = val;
-						break;
-					case "maze_file_detail":
-						maze_file_detail = val;
-						break;
-					case "img_dir":
-						result_dir = val;
-						break;
-					case "pa":
-						pa = Integer.valueOf(val);
-						break;
-					case "pb":
-						pb = Integer.valueOf(val);
-						break;
-					case "pc":
-						pc = Integer.valueOf(val);
-						break;
-					case "start_point_x":
-						start_point_x = Integer.valueOf(val);
-						break;
-					case "start_point_y":
-						start_point_y = Integer.valueOf(val);
-						break;
-					case "div_num":
-						Main_Maze.div_num = Integer.valueOf(val);
-					case "sim_num":
-						sim_num = Integer.valueOf(val);
-					case "sig_bias":
-						bias = Double.valueOf(val);
-					default:
-						break;
+						case "drawing":
+							drawing = Boolean.valueOf(val);
+							break;
+						case "save_resultIMG":
+							save_resultIMG = Boolean.valueOf(val);
+						case "draw_searchMAP":
+							Simulator2D.draw_searchMAP = Boolean.valueOf(val);
+							break;
+						case "calc_fractalDimension":
+							calc_fractalDimension = Boolean.valueOf(val);
+							break;
+						case "frame_rate":
+							frame_rate = Integer.valueOf(val);
+							break;
+						case "max_node_size":
+							max_node_size = Integer.valueOf(val);
+							break;
+						case "sight":
+							sight = Integer.valueOf(val);
+							break;
+						case "logFile":
+							logFile = Boolean.valueOf(val);
+							break;
+						case "goal_num":
+							goal_num = Integer.valueOf(val);
+							break;
+						case "close_step":
+							close_step = Integer.valueOf(val);
+							break;
+						case "maze_file":
+							maze_file = val;
+							break;
+						case "maze_file_detail":
+							maze_file_detail = val;
+							break;
+						case "img_dir":
+							result_dir = val;
+							break;
+						case "pa":
+							pa = Integer.valueOf(val);
+							break;
+						case "pb":
+							pb = Integer.valueOf(val);
+							break;
+						case "pc":
+							pc = Integer.valueOf(val);
+							break;
+						case "start_point_x":
+							start_point_x = Integer.valueOf(val);
+							break;
+						case "start_point_y":
+							start_point_y = Integer.valueOf(val);
+							break;
+						case "div_num":
+							Main_Maze.div_num = Integer.valueOf(val);
+						case "sim_num":
+							sim_num = Integer.valueOf(val);
+						case "sig_bias":
+							bias = Double.valueOf(val);
+						case "fd_manual":
+							fd_manual = Boolean.valueOf(val);
+						default:
+							break;
 					}
 				}
 			}
@@ -525,10 +543,12 @@ public class Main_Maze extends JFrame implements MouseListener {
 		System.out.println("-----------------------------------------------");
 		int numbers[] = { 1, 2, 4, 8 };
 		int max_node_size_def = max_node_size;
-		// String result_fold = result_dir;
-		for (int num : numbers) {
-			Main_Maze.div_num = num;
-			// result_dir = result_fold + Integer.toString(num) + "/";
+		String result_fold = result_dir;
+		for (int num = 0; num <= 16; num++) {
+			// Main_Maze.div_num = num;
+
+			fd = 1.20 + num * 0.05;
+			result_dir = result_fold + Double.toString(fd) + "/";
 
 			// max_node変化によるメモリ上限テスト
 			// max_node_size = max_node_size_def;
@@ -550,21 +570,14 @@ public class Main_Maze extends JFrame implements MouseListener {
 				// Point goalPoint = dp.getGoalPoint();
 				// Point checkPoint = dp.getCheckPoint();
 
-				// // 720
-				// Point startPoint = new Point(269, 11);
-				// Point goalPoint = new Point(701, 573);
+				// maze
+				Point startPoint = new Point(5, 5);
+				Point goalPoint = new Point(395, 395);
+
 				// 2160
-				Point startPoint = new Point(60, 60);
-				Point goalPoint = new Point(2025, 1727);
+				// Point startPoint = new Point(60, 60);
+				// Point goalPoint = new Point(2025, 1727);
 				// Point goalPoint = new Point(2050, 800);
-
-				// 4320
-				// Point startPoint = new Point(67, 400);
-				// Point goalPoint = new Point(4295, 3575);
-
-				//
-				// Point startPoint = new Point(1155, 352);
-				// Point goalPoint = new Point(5495, 7232);
 
 				System.out.println("start:" + startPoint + "," + "goal:" + goalPoint);
 
@@ -624,13 +637,15 @@ public class Main_Maze extends JFrame implements MouseListener {
 				// TODO スタート位置はここで決めてる（変えるべき）
 				MazeNode node = new MazeNode("0", "2", null, startPoint, 0);
 				Main_Maze main = new Main_Maze(sp, node, max_node_size, sight, logFile, goal_num, close_step,
-						frame_rate, drawing, calc_fractalDimension, result_dir, pa, pb, pc);
-				// Simulator2D simulator2d = new Simulator2D();
-				if (main.drawing == true && sim_count == 0 && num == numbers[0])
-					Simulator2D.main(new String[] { "--location=100,100", "maze_with_Lsystem.Simulator2D" });
+						frame_rate, drawing, calc_fractalDimension, result_dir, pa, pb, pc, fd_manual);
+				if (main.drawing == true && mainApplet == null) {
+					// mainAppletの用意
+					mainApplet = new Simulator2D();
+					PApplet.runSketch(new String[] { "--location=100,100", "main" }, mainApplet);
+				}
 				main.run();
 				sim_count++;
-				Simulator2D.clear();
+				mainApplet.clear();
 			}
 
 			// max_node_size -= 1000;
@@ -667,17 +682,17 @@ public class Main_Maze extends JFrame implements MouseListener {
 		Point point = e.getPoint();
 
 		switch (s) {
-		case start: {
-			startPosition = point;
-			s = Select.goal;
-			System.out.println("ゴール位置をクリックしてください");
-			break;
-		}
-		case goal: {
-			goalPosition = point;
-			s = Select.finish;
-			break;
-		}
+			case start: {
+				startPosition = point;
+				s = Select.goal;
+				System.out.println("ゴール位置をクリックしてください");
+				break;
+			}
+			case goal: {
+				goalPosition = point;
+				s = Select.finish;
+				break;
+			}
 		}
 		System.out.println("start:" + startPosition + "  goal:" + goalPosition);
 	}
