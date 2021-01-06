@@ -70,118 +70,117 @@ public class Simulator2D extends PApplet {
 		stroke(0, 0, 0);
 		point(0, 0);
 
-		// // 壁があるときの描画 中間なし
-		// if (Maze.getWallSetting() && !Maze.getCheckPointSetting()) {
-		// for (int y = 0; y < Maze.height; y++) {
-		// for (int x = 0; x < Maze.width; x++) {
-		// if (Maze.getWallPoint(x, y)) {
-		// stroke(0, 0, 0);
-		// // stroke(30,0,0);
-		// point(x, y);
-		// } else if (Maze.getstartPoint(x, y) != 0) {
-		// stroke(255, 255, 0);
-		// point(x, y);
-		// } else if (Maze.getgoalPoint(x, y) != 0) {
-		// stroke(255, 255, 0);
-		// point(x, y);
-		// }
-		// }
-		// }
-		// }
-		// // 様々な障害物があるときの描画
-		// else if (Maze.getFieldSetting() && !Maze.getCheckPointSetting()) {
-		// for (int y = 0; y < Maze.height; y++) {
-		// for (int x = 0; x < Maze.width; x++) {
-		// if (Maze.getFieldHeightStep(x, y) == 100) {
-		// stroke(255, 0, 255, 255);
-		// point(x, y);
-		// } else if (Maze.getFieldHeightStep(x, y) > 0) {
-		// int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
-		// / (double) Maze.getMaxHeightStep());
-		// // stroke(30, 0, 0, alpha);
-		// stroke(alpha, 0, alpha);
-		// point(x, y);
-		// } else if (Maze.getFieldHeightStep(x, y) < 0) {
-		// // int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
-		// // / (double) Maze.getMinHeightStep());
-		// // stroke(255, 0, 255, 255-alpha);
-		// // stroke(125, 0, alpha);
-		// stroke(255, 0, 255, 255);
-		// Maze.setFieldHeightStep(x, y, 100);
-		// point(x, y);
-		// } else if (Maze.getstartPoint(x, y) != 0) {
-		// stroke(255, 255, 0);
-		// point(x, y);
-		// } else if (Maze.getgoalPoint(x, y) != 0) {
-		// stroke(255, 255, 255);
-		// point(x, y);
-		// }
-		// /*
-		// * else if(Maze.getgoalPoint(x, y) > 0){ stroke(255, 0, 255); point(x , y ); }
-		// */
-		// /*
-		// * else if(Maze.getgoalPoint(x, y) < 0){ stroke(80, 100, 255); point(x , y );
-		// }
-		// */
-		// }
-		// }
-		// }
-		// // 壁がある時の描画 中間あり
-		// else if (Maze.getWallSetting() && Maze.getCheckPointSetting()) {
-		// for (int y = 0; y < Maze.height; y++) {
-		// for (int x = 0; x < Maze.width; x++) {
+		// 壁があるときの描画 中間なし
+		if (Maze.getWallSetting() && !Maze.getCheckPointSetting()) {
+			for (int y = 0; y < Maze.height; y++) {
+				for (int x = 0; x < Maze.width; x++) {
+					if (Maze.getWallPoint(x, y)) {
+						stroke(0, 0, 0);
+						// stroke(30,0,0);
+						point(x, y);
+					} else if (Maze.getstartPoint(x, y) != 0) {
+						stroke(255, 255, 0);
+						point(x, y);
+					} else if (Maze.getgoalPoint(x, y) != 0) {
+						stroke(255, 255, 0);
+						point(x, y);
+					}
+				}
+			}
+		}
+		// 様々な障害物があるときの描画
+		else if (Maze.getFieldSetting() && !Maze.getCheckPointSetting()) {
+			for (int y = 0; y < Maze.height; y++) {
+				for (int x = 0; x < Maze.width; x++) {
+					if (Maze.getFieldHeightStep(x, y) == 100) {
+						stroke(255, 0, 255, 255);
+						point(x, y);
+					} else if (Maze.getFieldHeightStep(x, y) > 0) {
+						int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
+								/ (double) Maze.getMaxHeightStep());
+						// stroke(30, 0, 0, alpha);
+						stroke(alpha, 0, alpha);
+						point(x, y);
+					} else if (Maze.getFieldHeightStep(x, y) < 0) {
+						// int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
+						// / (double) Maze.getMinHeightStep());
+						// stroke(255, 0, 255, 255-alpha);
+						// stroke(125, 0, alpha);
+						stroke(255, 0, 255, 255);
+						Maze.setFieldHeightStep(x, y, 100);
+						point(x, y);
+					} else if (Maze.getstartPoint(x, y) != 0) {
+						stroke(255, 255, 0);
+						point(x, y);
+					} else if (Maze.getgoalPoint(x, y) != 0) {
+						stroke(255, 255, 255);
+						point(x, y);
+					}
+					/*
+					 * else if(Maze.getgoalPoint(x, y) > 0){ stroke(255, 0, 255); point(x , y ); }
+					 */
+					/*
+					 * else if(Maze.getgoalPoint(x, y) < 0){ stroke(80, 100, 255); point(x , y ); }
+					 */
+				}
+			}
+		}
+		// 壁がある時の描画 中間あり
+		else if (Maze.getWallSetting() && Maze.getCheckPointSetting()) {
+			for (int y = 0; y < Maze.height; y++) {
+				for (int x = 0; x < Maze.width; x++) {
 
-		// if (Maze.getWallPoint(x, y)) {
-		// stroke(255, 0, 255, 255);
-		// // stroke(30,0,0);
-		// point(x, y);
-		// } else if (Maze.getstartPoint(x, y) != 0) {
-		// stroke(255, 255, 0);
-		// point(x, y);
-		// } else if (Maze.getgoalPoint(x, y) != 0) {
-		// stroke(255, 255, 255);
-		// point(x, y);
-		// } else if (Maze.getCheckPoint(x, y) != 0) {
-		// stroke(0, 255, 255);
-		// point(x, y);
-		// }
-		// }
-		// }
-		// }
-		// // 山、中間あり
-		// else if (Maze.getFieldSetting() && Maze.getCheckPointSetting()) {
-		// for (int y = 0; y < Maze.height; y++) {
-		// for (int x = 0; x < Maze.width; x++) {
-		// if (Maze.getFieldHeightStep(x, y) == 100) {
-		// stroke(30, 0, 0);
-		// point(x, y);
-		// } else if (Maze.getFieldHeightStep(x, y) > 0) {
-		// int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
-		// / (double) Maze.getMaxHeightStep());
-		// stroke(30, 0, 0, alpha);
-		// // stroke(alpha, 0, alpha);
-		// point(x, y);
-		// } else if (Maze.getFieldHeightStep(x, y) < 0) {
-		// // int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
-		// // / (double) Maze.getMinHeightStep());
-		// // stroke(255, 0, 255, 255-alpha);
-		// // stroke(125, 0, alpha);
-		// stroke(255, 0, 255, 255);
-		// Maze.setFieldHeightStep(x, y, 100);
-		// point(x, y);
-		// } else if (Maze.getstartPoint(x, y) != 0) {
-		// stroke(100, 0, 0);
-		// point(x, y);
-		// } else if (Maze.getgoalPoint(x, y) != 0) {
-		// stroke(0, 0, 20);
-		// point(x, y);
-		// } else if (Maze.getCheckPoint(x, y) != 0) {
-		// stroke(50, 50, 0);
-		// point(x, y);
-		// }
-		// }
-		// }
-		// }
+					if (Maze.getWallPoint(x, y)) {
+						stroke(255, 0, 255, 255);
+						// stroke(30,0,0);
+						point(x, y);
+					} else if (Maze.getstartPoint(x, y) != 0) {
+						stroke(255, 255, 0);
+						point(x, y);
+					} else if (Maze.getgoalPoint(x, y) != 0) {
+						stroke(255, 255, 255);
+						point(x, y);
+					} else if (Maze.getCheckPoint(x, y) != 0) {
+						stroke(0, 255, 255);
+						point(x, y);
+					}
+				}
+			}
+		}
+		// 山、中間あり
+		else if (Maze.getFieldSetting() && Maze.getCheckPointSetting()) {
+			for (int y = 0; y < Maze.height; y++) {
+				for (int x = 0; x < Maze.width; x++) {
+					if (Maze.getFieldHeightStep(x, y) == 100) {
+						stroke(30, 0, 0);
+						point(x, y);
+					} else if (Maze.getFieldHeightStep(x, y) > 0) {
+						int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
+								/ (double) Maze.getMaxHeightStep());
+						stroke(30, 0, 0, alpha);
+						// stroke(alpha, 0, alpha);
+						point(x, y);
+					} else if (Maze.getFieldHeightStep(x, y) < 0) {
+						// int alpha = (int) (255 * (double) Maze.getFieldHeightStep(x, y)
+						// / (double) Maze.getMinHeightStep());
+						// stroke(255, 0, 255, 255-alpha);
+						// stroke(125, 0, alpha);
+						stroke(255, 0, 255, 255);
+						Maze.setFieldHeightStep(x, y, 100);
+						point(x, y);
+					} else if (Maze.getstartPoint(x, y) != 0) {
+						stroke(100, 0, 0);
+						point(x, y);
+					} else if (Maze.getgoalPoint(x, y) != 0) {
+						stroke(0, 0, 20);
+						point(x, y);
+					} else if (Maze.getCheckPoint(x, y) != 0) {
+						stroke(50, 50, 0);
+						point(x, y);
+					}
+				}
+			}
+		}
 
 		stroke(0, 255, 0);// セルの移動描画
 		strokeWeight(1);
@@ -196,6 +195,10 @@ public class Simulator2D extends PApplet {
 		}
 		if (finish == true)
 			stopDraw();
+
+		// if (frameCount <= 4000) {
+		// saveFrame("frames1/####.png");
+		// }
 	}
 
 	public void stopDraw() {

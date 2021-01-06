@@ -191,11 +191,6 @@ public class Main_Maze extends JFrame implements MouseListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("ループ抜け");
-
-		long end_time = System.currentTimeMillis();
-		long time = end_time - start_time;
-		System.out.println("処理時間：" + time / 1000 + "[s]");
 
 		if (save_resultIMG) {
 			System.out.println("描くよ!");
@@ -211,6 +206,12 @@ public class Main_Maze extends JFrame implements MouseListener {
 			screenShot(result_dir + ID + "_search=" + Simulator2D.draw_searchMAP + ".png");
 			Simulator2D.finish();
 		}
+
+		System.out.println("ループ抜け");
+
+		long end_time = System.currentTimeMillis();
+		long time = end_time - start_time;
+		System.out.println("処理時間：" + time / 1000 + "[s]");
 
 		System.out.println("探索終了");
 		System.out.println("step = " + step_num);
@@ -234,13 +235,14 @@ public class Main_Maze extends JFrame implements MouseListener {
 
 	public static void screenShot(String fname) {
 		// 描画時間のsleep含む
-		try {
-			Thread.sleep(1500);
-			Simulator2D.saveImg(fname);
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Simulator2D.saveImg(fname);
+		// try {
+		// Thread.sleep(1500);
+		// Simulator2D.saveImg(fname);
+		// Thread.sleep(1500);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	public void preStep() {
@@ -544,108 +546,115 @@ public class Main_Maze extends JFrame implements MouseListener {
 		int numbers[] = { 1, 2, 4, 8 };
 		int max_node_size_def = max_node_size;
 		String result_fold = result_dir;
-		for (int num = 0; num <= 16; num++) {
+		for (int num = 0; num <= 4; num++) {
 			// Main_Maze.div_num = num;
 
-			fd = 1.20 + num * 0.05;
-			result_dir = result_fold + Double.toString(fd) + "/";
+			fd = 1.80 + num * 0.05;
+			result_dir = result_fold + String.format("%.2f", fd) + "/";
 
 			// max_node変化によるメモリ上限テスト
 			// max_node_size = max_node_size_def;
 			// while (max_node_size > 0) {
 
+			int sim_count1 = 0;
 			sim_count = 0;
 			while (sim_count < sim_num) {
-				System.out.println("---- シミュレーション " + (sim_count + 1) + " 回目 ----");
-				Maze.clear();
+				max_node_size = max_node_size_def + sim_count * 1000;
+				sim_count1 = 0;
+				while (sim_count1 < sim_num) {
+					System.out.println("---- シミュレーション " + (sim_count1 * 1 + sim_count * 10 + 1) + " 回目	 ----");
+					System.out.println("---- 最大リソース数　 " + max_node_size + " 	 ----");
+					Maze.clear();
 
-				// スタート位置、ゴール位置を好きなように決める、壁のみ
-				// DecidePoint dp = new DecidePoint(maze_file);
+					// スタート位置、ゴール位置を好きなように決める、壁のみ
+					// DecidePoint dp = new DecidePoint(maze_file);
 
-				// dp.setVisible(true);
-				// while (!dp.isSetPoint()) {
-				// System.out.print("");
-				// }
-				// Point startPoint = dp.getStartPoint();
-				// Point goalPoint = dp.getGoalPoint();
-				// Point checkPoint = dp.getCheckPoint();
+					// dp.setVisible(true);
+					// while (!dp.isSetPoint()) {
+					// System.out.print("");
+					// }
+					// Point startPoint = dp.getStartPoint();
+					// Point goalPoint = dp.getGoalPoint();
+					// Point checkPoint = dp.getCheckPoint();
 
-				// maze
-				Point startPoint = new Point(5, 5);
-				Point goalPoint = new Point(395, 395);
+					// maze
+					Point startPoint = new Point(5, 5);
+					Point goalPoint = new Point(395, 395);
 
-				// 2160
-				// Point startPoint = new Point(60, 60);
-				// Point goalPoint = new Point(2025, 1727);
-				// Point goalPoint = new Point(2050, 800);
+					// 2160
+					// Point startPoint = new Point(60, 60);
+					// Point goalPoint = new Point(2025, 1727);
+					// Point goalPoint = new Point(2050, 800);
 
-				System.out.println("start:" + startPoint + "," + "goal:" + goalPoint);
+					System.out.println("start:" + startPoint + "," + "goal:" + goalPoint);
 
-				// ただの壁あり
-				Maze sp = new Maze(maze_file, startPoint, goalPoint, 6);
+					// ただの壁あり
+					Maze sp = new Maze(maze_file, startPoint, goalPoint, 6);
 
-				// 画像をdiv_num x div_numに分割してフラクタル次元をそれぞれ求める
-				// 同時にフラクタル次元の平均値を計算してシグモイド曲線の変曲点を決める
-				double fdSUM = 0.0;
-				double fdAVE = 0.0;
-				int count_void = 0; // 領域内に図形が含まれない場合をカウント
-				// ここまで変曲点導出用変数
-				Main_Maze.fractalSETs = new double[Main_Maze.div_num][Main_Maze.div_num];
-				if (calc_fractalDimension) {
-					if (Main_Maze.div_num > 1) {
-						// 画像サイズからdiv_sizeを計算して、各エリアごとのフラクタル次元を計算する
-						Main_Maze.div_size = Maze.width / Main_Maze.div_num;
-						boolean[][] dArea = new boolean[Main_Maze.div_size][Main_Maze.div_size];
-						for (int Ay = 0; Ay < Main_Maze.div_num; Ay++) {
-							for (int Ax = 0; Ax < Main_Maze.div_num; Ax++) {
-								// wallMAPからdAriaにコピー
-								for (int dx = 0; dx < Main_Maze.div_size; dx++) {
-									dArea[dx] = Arrays.copyOfRange(Maze.wallMAP[Ax * Main_Maze.div_size + dx],
-											Ay * Main_Maze.div_size, (Ay + 1) * Main_Maze.div_size);
+					// 画像をdiv_num x div_numに分割してフラクタル次元をそれぞれ求める
+					// 同時にフラクタル次元の平均値を計算してシグモイド曲線の変曲点を決める
+					double fdSUM = 0.0;
+					double fdAVE = 0.0;
+					int count_void = 0; // 領域内に図形が含まれない場合をカウント
+					// ここまで変曲点導出用変数
+					Main_Maze.fractalSETs = new double[Main_Maze.div_num][Main_Maze.div_num];
+					if (calc_fractalDimension) {
+						if (Main_Maze.div_num > 1) {
+							// 画像サイズからdiv_sizeを計算して、各エリアごとのフラクタル次元を計算する
+							Main_Maze.div_size = Maze.width / Main_Maze.div_num;
+							boolean[][] dArea = new boolean[Main_Maze.div_size][Main_Maze.div_size];
+							for (int Ay = 0; Ay < Main_Maze.div_num; Ay++) {
+								for (int Ax = 0; Ax < Main_Maze.div_num; Ax++) {
+									// wallMAPからdAriaにコピー
+									for (int dx = 0; dx < Main_Maze.div_size; dx++) {
+										dArea[dx] = Arrays.copyOfRange(Maze.wallMAP[Ax * Main_Maze.div_size + dx],
+												Ay * Main_Maze.div_size, (Ay + 1) * Main_Maze.div_size);
+									}
+									CalcFractalDimension cf = new CalcFractalDimension(dArea,
+											result_dir + "fractalDimension");
+									cf.run();
+									// フラクタル次元が計算できなかった場合、フラクタル次元が1未満あるいは2を超過する場合
+									if (Double.isNaN(cf.get_fractalDimension()) || cf.get_fractalDimension() < 1) {
+										Main_Maze.fractalSETs[Ax][Ay] = -1.0;
+										count_void++;
+										System.out.println(count_void);
+									} else {
+										Main_Maze.fractalSETs[Ax][Ay] = cf.get_fractalDimension();
+										fdSUM += Main_Maze.fractalSETs[Ax][Ay];
+									}
+									System.out.println("(" + Ax + "," + Ay + ") = " + Main_Maze.fractalSETs[Ax][Ay]);
 								}
-								CalcFractalDimension cf = new CalcFractalDimension(dArea,
-										result_dir + "fractalDimension");
-								cf.run();
-								// フラクタル次元が計算できなかった場合、フラクタル次元が1未満あるいは2を超過する場合
-								if (Double.isNaN(cf.get_fractalDimension()) || cf.get_fractalDimension() < 1) {
-									Main_Maze.fractalSETs[Ax][Ay] = -1.0;
-									count_void++;
-									System.out.println(count_void);
-								} else {
-									Main_Maze.fractalSETs[Ax][Ay] = cf.get_fractalDimension();
-									fdSUM += Main_Maze.fractalSETs[Ax][Ay];
-								}
-								System.out.println("(" + Ax + "," + Ay + ") = " + Main_Maze.fractalSETs[Ax][Ay]);
 							}
+							System.out.println(Double.toString(fractalSETs[0].length));
+							fdAVE = fdSUM / (fractalSETs[0].length * fractalSETs[0].length - count_void);
+							Main_Maze.sig_bias = fdAVE;
+						} else {
+							// 画像を分割しないでフラクタル次元を計算する
+							CalcFractalDimension cf0 = new CalcFractalDimension(maze_file,
+									result_dir + "fractalDimension");
+							cf0.run();
+							fd = cf0.get_fractalDimension();
+							System.out.println("fd: " + fd);
+							// シグモイド曲線バイアス用
+							Main_Maze.sig_bias = 1.58;
 						}
-						System.out.println(Double.toString(fractalSETs[0].length));
-						fdAVE = fdSUM / (fractalSETs[0].length * fractalSETs[0].length - count_void);
-						Main_Maze.sig_bias = fdAVE;
-					} else {
-						// 画像を分割しないでフラクタル次元を計算する
-						CalcFractalDimension cf0 = new CalcFractalDimension(maze_file, result_dir + "fractalDimension");
-						cf0.run();
-						fd = cf0.get_fractalDimension();
-						System.out.println("fd: " + fd);
-						// シグモイド曲線バイアス用
-						Main_Maze.sig_bias = 1.58;
 					}
-				}
-				System.out.println("bias: " + Main_Maze.sig_bias);
-				System.out.println("max_node_size: " + max_node_size);
+					System.out.printf("fd: %.2f\n", fd);
 
-				// TODO スタート位置はここで決めてる（変えるべき）
-				MazeNode node = new MazeNode("0", "2", null, startPoint, 0);
-				Main_Maze main = new Main_Maze(sp, node, max_node_size, sight, logFile, goal_num, close_step,
-						frame_rate, drawing, calc_fractalDimension, result_dir, pa, pb, pc, fd_manual);
-				if (main.drawing == true && mainApplet == null) {
-					// mainAppletの用意
-					mainApplet = new Simulator2D();
-					PApplet.runSketch(new String[] { "--location=100,100", "main" }, mainApplet);
+					// TODO スタート位置はここで決めてる（変えるべき）
+					MazeNode node = new MazeNode("0", "2", null, startPoint, 0);
+					Main_Maze main = new Main_Maze(sp, node, max_node_size, sight, logFile, goal_num, close_step,
+							frame_rate, drawing, calc_fractalDimension, result_dir, pa, pb, pc, fd_manual);
+					if (main.drawing == true && mainApplet == null) {
+						// mainAppletの用意
+						mainApplet = new Simulator2D();
+						PApplet.runSketch(new String[] { "--location=100,100", "main" }, mainApplet);
+					}
+					main.run();
+					sim_count1++;
+					mainApplet.clear();
 				}
-				main.run();
 				sim_count++;
-				mainApplet.clear();
 			}
 
 			// max_node_size -= 1000;

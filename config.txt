@@ -1,16 +1,16 @@
 ﻿//探索中の描画
 drawing : true
 //結果画像の記録
-save_resultIMG : true
+save_resultIMG : false
 //探索済みセルの描画
-draw_searchMAP : true
+draw_searchMAP : false
 //フラクタル次元の計算
 calc_fractalDimension : false
 //フレームレート
 frame_rate : 10
 //最大ノード数
 //def:20000
-max_node_size : 20000
+max_node_size : 2000
 //視野
 sight : 10
 //ログファイルの出力
@@ -18,7 +18,7 @@ logFile : false
 //ゴールの個数
 goal_num : 1
 //探索打ち切りステップ数
-close_step : 50000
+close_step : 5000
 //迷路ファイル(餌の位置を設定してるだけ。)
 //maze_file : ../FLSpy/images/34.714,137.414_drive_dpi=200_2160x2160.png
 //maze_file : ../FLSpy/images/34.714,137.414_drive_dist=5000_10800x10800.png
@@ -31,7 +31,7 @@ maze_file : ./resources/black.png
 //詳細迷路ファイル（MAP内の高低差（迷路）を記述）
 maze_file_detail : ./resources/meiro.csv
 //結果保存フォルダ
-img_dir : ./result/master/test/
+img_dir : ./result/master/test1/
 //分岐確率
 pa : 10
 pb : 30
@@ -43,7 +43,7 @@ start_point_y : 20
 //div_num = 2 : 縦横2分割 = 画像を4分割
 div_num : 1
 //シミュレーション回数
-sim_num : 2
+sim_num : 10
 //シグモイド曲線のバイアスdef:1.58
 sig_bias : 1.58
 //フラクタル次元の手動指定

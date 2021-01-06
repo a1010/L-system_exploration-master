@@ -1,10 +1,14 @@
 package fractal;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -72,7 +76,7 @@ public class CalcFractalDimension {
 	public void run() {
 		calc();
 		calc_slope();
-		// output_slope();
+		output_slope();
 	}
 
 	/**
@@ -235,9 +239,54 @@ public class CalcFractalDimension {
 	}
 
 	public static void main(String[] args) {
-		CalcFractalDimension cDimension = new CalcFractalDimension("C:/LAB/FLSpy/images/Bangkok, Thailand_2.png",
-				"./result/fractalDimension");
-		cDimension.run();
+		for (int i = 0; i <= 16; i++) {
+			// 作業ディレクトリ指定
+			String id = String.format("%.2f", 1.20 + 0.05 * i);
+			String f_dir = "./result/master/test/" + id + "/";
+			String file_name = f_dir + "result.csv";
+
+			// 行数カウント
+			Path path = Paths.get(file_name);
+			int f_lines = 100;
+			try {
+				f_lines = (int) Files.lines(path).count();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String[] img = new String[f_lines];
+
+			try {
+				File csv_file = new File(file_name);
+				FileInputStream fis = new FileInputStream(csv_file);
+				InputStreamReader isr = new InputStreamReader(fis);
+				BufferedReader br = new BufferedReader(isr);
+				String line;
+				String cols[];
+				int num = 0;
+				while ((line = br.readLine()) != null) {
+					cols = line.split(",");
+					img[num] = cols[0].substring(2);
+					System.out.println(num + "," + img[num]);
+					num++;
+				}
+				fis.close();
+				isr.close();
+				br.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// すべての画像インスタンスに対しフラクタル次元を計算
+			for (int n = 0; n < f_lines; n++) {
+				String f_in = f_dir + "fractalDim_" + img[n] + ".png";
+				String f_out = f_dir + "fractalDimension";
+				CalcFractalDimension cDimension = new CalcFractalDimension(f_in, f_out);
+				cDimension.run();
+			}
+		}
+		System.out.println("おしまい！");
 	}
 
 	// 色の補正

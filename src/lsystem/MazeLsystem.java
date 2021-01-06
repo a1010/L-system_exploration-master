@@ -85,7 +85,6 @@ public class MazeLsystem extends Lsystem {
 				// TODO: ゴール時のフラクタル次元記録用
 				Simulator2D.draw_searchMAP = false;
 				Main_Maze.screenShot(Main_Maze.result_dir + "fractalDim_" + Main_Maze.ID + ".png");
-				Simulator2D.draw_searchMAP = true;
 			}
 		}
 
